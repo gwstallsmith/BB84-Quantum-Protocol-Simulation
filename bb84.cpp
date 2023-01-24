@@ -2,6 +2,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <cstdlib>
 
 using std::cin; using std::cout; using std::endl;
 using std::string; using std::vector;
@@ -16,17 +17,13 @@ public:
     pair<char, char> getTensor() { return tensor_; }
 
     void setBit(char newBit) {
-        if(newBit != '0' || '1')
-            return;
         bit_ = newBit;
     }
     void setState(char newState) {
-        if(newState != '+' || 'x')
-            return;
         state_ = newState;
     }
     void setTensor(char newBit, char newState) {
-        if((newBit != '0' || '1') || (newState != '+' || 'x'))
+        if((newBit != '0' || newBit != '1') || (newState != '+' || newState != 'x'))
             return;
 
         setBit(newBit);
@@ -46,30 +43,36 @@ class Alice {
 public:
     Alice() : n_(0), privKey_({}) {}
 
-    vector<Qubit> generateKey(int size) {
-        n_ = randN(size);
+    void generateKey(int size) {
+        n_ = size;
         privKey_.resize(n_);
 
-        for(auto q : privKey_) {
-            q.setTensor(randBit(), randState());
+        for(int i = 0; i < privKey_.size(); i++) {
+            privKey_[i].setBit(randBit());
+            privKey_[i].setState(randState());
+           
+            privKey_[i].setTensor(privKey_[i].getBit(), privKey_[i].getState());
         }
     }
 
-    int randN(int size) { return rand() % size;}
-
     char randBit() {
-        if(rand() % 2 == 0)
-            return '+';
-        else
-            return 'x';
-    }
-    char randState() {
         if(rand() % 2 == 0)
             return '0';
         else
             return '1';
     }
+    char randState() {
+        if(rand() % 2 == 0)
+            return '+';
+        else
+            return 'x';
+    }
 
+    void printPrivKey() {
+        for(int i = 0; i <  privKey_.size(); i++) {
+            cout << "Qubit " << i  << " : "<< privKey_[i].getBit() << ' ' << privKey_[i].getState() << endl;
+        }
+    }
 
 private:
     int n_;    
@@ -83,7 +86,9 @@ class Eve {};
 
 
 int main() {
-
-
+    srand(time(0));
+    Alice a;
+    a.generateKey(5);
+    a.printPrivKey();
     return 0;
 }
