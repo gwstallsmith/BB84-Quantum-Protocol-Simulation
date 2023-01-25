@@ -1,138 +1,109 @@
 #include <iostream>
 #include <string>
-#include <utility>
 #include <vector>
 #include <cstdlib>
 
 using std::cin; using std::cout; using std::endl;
 using std::string; using std::vector;
-using std::pair;
 
 class Qubit {
 public:
     // We may only need the tensor product
     // I suppose it is nice to have bit and state as individual private members
-    Qubit() : bit_('0'), state_('+'), tensor_(bit_, state_) {}
-
+    Qubit() : bit_("0"), basis_("+"), polar_("0"), qubit_({"0", "+", "0"}) {}
 
     // Getters, not much interesting here
-    char getBit(){ return bit_; }
-    char getState() { return state_; }
-    pair<char, char> getTensor() { return tensor_; }
+    string getBit(){ return bit_; }
+    string getState() { return basis_; }
+    string getPolar() { return polar_; }
+    vector<string> getSharedKey() { return qubit_; } // The auto is fucking disgusting, but idk how to make a character array a return type
 
     // Setters that will help with the creation of Qubits
-    // We need to make sure we change the Tensor product when we change the bit / state
-    void setBit(char newBit) {
-        bit_ = newBit;
-        tensor_.first = bit_;
-    }
-    void setState(char newState) {
-        state_ = newState;
-        tensor_.second = state_;
-    }
-    // Qubits are actually vectors aka "Tensor Products"
-    // So we create a pair of bit and state to imitate this Tensor
-    void setTensor(char newBit, char newState) {
-        if((newBit != '0' || newBit != '1') || (newState != '+' || newState != 'x'))
+    // We need to make sure we change the qubit vector when we change the bit / state / polarization
+    void setBit(string newBit) {
+        if(newBit != "0" || newBit != "1")
             return;
-
-        setBit(newBit);
-        setState(newState);
-
-        tensor_.first = newBit;
-        tensor_.second = newState;
+        bit_ = newBit;
+        qubit_[0] = newBit;
     }
+    void setBasis(string newBasis) {
+        basis_ = newBasis;
+        qubit_[1] = newBasis;
+    }
+    void setPolar(string newPolar) {
+        polar_ = newPolar;
+        qubit_[2] = newPolar;
+    }
+    // Qubit keys consist of a bit, a basis, and a polarization
+    void setQubit(string newBit, string newBasis, string newPolar) {
+        if((newBit != "0" || newBit != "1") || 
+           (newBasis != "+" || newBasis != "x") ||
+           (newPolar != "0" || newPolar != "90" || newPolar != "45" || newPolar != "135")) { return; } // Clarifying brackets because the if statement is ugly
+
+        bit_ = newBit;
+        qubit_[0] = bit_;
+
+        basis_ = newBasis;
+        qubit_[1] = basis_;
+
+        polar_ = newPolar;
+        qubit_[2] = polar_;
+    }
+
 
 private:
-    char bit_;
-    char state_;
-    pair<char, char> tensor_;
+    string bit_;
+    string basis_;
+    string polar_;
+    vector<string> qubit_;
 };
 
 class Alice {
 public:
-    Alice() : n_(0), privKey_({}) {}
+    Alice() : otp_({}) {}
 
-    // Generate a string of randomized Qubits based on user inputed size
-    void generateKey(int size) {
-        n_ = size;
-        privKey_.resize(n_);
+    vector<Qubit> generateOTP(int size = 1) {
+        otp_.resize(size);
 
-        for(int i = 0; i < privKey_.size(); i++) {
-            privKey_[i].setBit(randBit());
-            privKey_[i].setState(randState());
-           
-            privKey_[i].setTensor(privKey_[i].getBit(), privKey_[i].getState());
+        for(int i = 0; i < otp_.size(); ++i){
+            Qubit(randBit(), randBasis(), randPolar(), {randBit(), randBasis(), randPolar()});
+
+
+
+
         }
     }
 
-    // There is a 50/50 chance for each bit and state selection
-    char randBit() {
-        if(rand() % 2 == 0)
-            return '0';
-        else
-            return '1';
+    string randBit() {
+        string randBit;
+        if(rand() % 2 == 0) randBit = "0"; else randBit = "1";
+        return randBit;
     }
-    char randState() {
-        if(rand() % 2 == 0)
-            return '+';
-        else
-            return 'x';
+    string randBasis() {
+        string randBasis;
+        if(rand() % 2 == 0) randBasis = "+"; else randBasis = "x";
+        return randBasis;
     }
+    string randPolar() {
+        string randPolar;
+        int polarChance = rand() % 4;
 
-    // Utility print function
-    void printPrivKey() {
-        for(int i = 0; i <  privKey_.size(); i++) {
-            cout << "Qubit " << i+1  << " : "<< privKey_[i].getBit() << ' ' << privKey_[i].getState() << endl;
-        }
-    }
+        if(polarChance == 0) randPolar = "0";
+        else if(polarChance == 1) randPolar = "90";
+        else if(polarChance == 2) randPolar = "45";
+        else if(polarChance == 3) randPolar = "135";
 
-    // This is essentially a getter
-    // But this is how we will "send" the private key to Bob for him to measure
-    vector<Qubit> sendKey(){ return privKey_; }
-
-private:
-    int n_;    
-    vector<Qubit> privKey_;
-};
-
-class Bob {
-public:
-    Bob() : n_(0), privKey_({}) {}
-
-    void generateEndKey(vector<Qubit> sentPrivKey) {
-        n_ = sentPrivKey.size();
-        privKey_.resize(n_);
-
-        char measureState = randState();
-
-
-        for(int i = 0; i < sentPrivKey.size(); i++) {
-            privKey_[i].setBit(randBit());
-            privKey_[i].setState(randState());
-           
-            privKey_[i].setTensor(privKey_[i].getBit(), privKey_[i].getState());
-        }
-    }
-    // There is a 50/50 chance for each bit and state selection
-    char randBit() {
-        if(rand() % 2 == 0)
-            return '0';
-        else
-            return '1';
-    }
-    char randState() {
-        if(rand() % 2 == 0)
-            return '+';
-        else
-            return 'x';
+        return randPolar;
     }
 
 
 private:
-    int n_;    
-    vector<Qubit> privKey_;    
+    // One Time Pad / Shared Key
+    // otp_ is a cleaner name
+    vector<Qubit> otp_;
 };
+
+class Bob {};
 
 class Eve {};
 
@@ -140,8 +111,7 @@ class Eve {};
 
 int main() {
     srand(time(0));
-    Alice a;
-    a.generateKey(5);
-    a.printPrivKey();
+
+
     return 0;
 }
