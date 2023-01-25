@@ -90,5 +90,6 @@ int main() {
     Alice a;
     a.generateKey(5);
     a.printPrivKey();
+    cout << "Thanks for using" << endl;
     return 0;
 }
