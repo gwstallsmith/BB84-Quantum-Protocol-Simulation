@@ -40,7 +40,7 @@ private:
 
 class Alice {
 public:
-    Alice() : basis_("+"), otp_({}) {}
+    Alice() : basis_("+"), otp_({}), fotp_({}) {}
 
     vector<Qubit> generateOTP(int size) {
         otp_.resize(size);
@@ -69,8 +69,19 @@ public:
         }
     }
 
+    vector<string> compareOTP(vector<string> inOTP){
+        for(int i = 0; i < inOTP.size(); i++) {
+            if(otp_[i].getBit() == inOTP[i]){
+                fotp_.push_back(inOTP[i]);
+            }
+        }
+
+        return fotp_;
+    }
 
     void printOTP() { for(auto &q : otp_) { cout << q.getBit() << " " << q.getBasis() << " " << q.getPolar() << endl; } }
+
+    void printFOTP() { for(auto &str: fotp_) { cout << str << endl; } }
 
 
 private:
@@ -79,6 +90,7 @@ private:
     string basis_;
     string polar_;
     vector<Qubit> otp_;
+    vector<string> fotp_;
 };
 
 class Bob {
@@ -135,9 +147,12 @@ int main() {
     Alice a;
     Bob b;
 
-    b.measureOTP(a.generateOTP(6));
+    a.compareOTP(b.measureOTP(a.generateOTP(16)));
     b.printSOTP();
-    //a.printOTP();
+
+    cout << endl << "Alice measures final pad" << endl;
+
+    a.printFOTP();
 
     return 0;
 }
