@@ -22,6 +22,13 @@ public:
         setPolar(Q.polar_);
     }
 
+    bool operator==(const Qubit &Q) {
+        if(bit_ == Q.bit_ && basis_ == Q.basis_ && polar_ == Q.polar_)
+            return true;
+        else
+            return false;
+    }
+
     // Getters, not much interesting here
     string getBit(){ return bit_; }
     string getBasis() { return basis_; }
@@ -40,7 +47,7 @@ private:
 
 class Alice {
 public:
-    Alice() : basis_("+"), otp_({}), fotp_({}) {}
+    Alice() : basis_("+"), otp_({}), botp_({}) {}
 
     vector<Qubit> generateOTP(int size) {
         otp_.resize(size);
@@ -69,19 +76,18 @@ public:
         }
     }
 
-    vector<string> compareOTP(vector<string> inOTP){
+    vector<string> compareOTP(vector<Qubit> inOTP){
         for(int i = 0; i < inOTP.size(); i++) {
-            if(otp_[i].getBit() == inOTP[i]){
-                fotp_.push_back(inOTP[i]);
+            if(otp_[i] == inOTP[i]){
+                botp_.push_back(inOTP[i].getBit());
             }
         }
-
-        return fotp_;
+        return botp_;
     }
 
     void printOTP() { for(auto &q : otp_) { cout << q.getBit() << " " << q.getBasis() << " " << q.getPolar() << endl; } }
 
-    void printFOTP() { for(auto &str: fotp_) { cout << str << endl; } }
+    void printBOTP() { for(auto &str: botp_) { cout << str << endl; } }
 
 
 private:
@@ -90,26 +96,25 @@ private:
     string basis_;
     string polar_;
     vector<Qubit> otp_;
-    vector<string> fotp_;
+    // Final bit otp
+    vector<string> botp_;
 };
 
 class Bob {
 public:
-    Bob() : basis_("+"), polar_("0"), sotp_({}) {}
+    Bob() : basis_("+"), polar_("0"), otp_({}), botp_({}) {}
 
-    vector<string> measureOTP(vector<Qubit> inOTP) {
-        sotp_.resize(inOTP.size());
+    vector<Qubit> measureOTP(vector<Qubit> inOTP) {
+        otp_.resize(inOTP.size());
 
         for(int i = 0; i < inOTP.size(); i++) {
             randBasisPolar();
-
             if(inOTP[i].getBasis() == basis_ && inOTP[i].getPolar() == polar_)
-                sotp_[i] = inOTP[i].getBit();
+                otp_[i] = inOTP[i];
             else
-                sotp_[i] = "Undefined";
+                otp_[i] = Qubit("U", basis_, polar_);
         }
-
-        return sotp_;
+        return otp_;
     }
 
     void randBasisPolar() {
@@ -128,14 +133,17 @@ public:
         }
     }
 
-    void printSOTP() { for(auto &str : sotp_) { cout << str << endl; } }
+
+    void printOTP() { for(auto &q : otp_) { cout << q.getBit() << " " << q.getBasis() << " " << q.getPolar() << endl; } }
+
+    void printBOTP() { for(auto &str: botp_) { cout << str << endl; } }
 
 
 private:
     string basis_;
     string polar_;
-    // string One Time Pad
-    vector<string> sotp_; 
+    vector<Qubit> otp_;
+    vector<string> botp_;
 };
 
 class Eve {};
@@ -147,12 +155,21 @@ int main() {
     Alice a;
     Bob b;
 
-    a.compareOTP(b.measureOTP(a.generateOTP(16)));
-    b.printSOTP();
+    vector<string> agreedOTP;
 
-    cout << endl << "Alice measures final pad" << endl;
+    agreedOTP = a.compareOTP(b.measureOTP(a.generateOTP(10)));
 
-    a.printFOTP();
+    cout << "Alice sends..." << endl;
+
+    a.printOTP();
+
+    cout << endl << "Bob measures..." << endl;
+
+    b.printOTP();
+
+    cout << endl << "Agreed OTP after comparison..." << endl;
+
+    a.printBOTP();
 
     return 0;
 }
