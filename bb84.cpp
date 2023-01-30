@@ -181,18 +181,94 @@ private:
     vector<string> botp_;
 };
 
-class Eve {};
+class Eve {
+public:
+    Eve() : bit_("0"), basis_("+"), polar_("0"), otp_({}), botp_({}) {}
+
+    vector<Qubit> measureOTP(vector<Qubit> inOTP) {
+        otp_.resize(inOTP.size());
+
+        for(int i = 0; i < inOTP.size(); i++) {
+            randBasisPolarBit();
+
+            if(inOTP[i].getBasis() == basis_ && inOTP[i].getPolar() == polar_)
+                otp_[i] = inOTP[i];
+
+            else if(inOTP[i].getBasis() == basis_ && inOTP[i].getPolar() != polar_) {
+                if(inOTP[i].getPolar() == "0")
+                    otp_[i] = Qubit("1", "+", "0");
+
+                else if(inOTP[i].getPolar() == "45")
+                    otp_[i] = Qubit("0", "x", "45");
+
+                else if(inOTP[i].getPolar() == "90")
+                    otp_[i] = Qubit("0", "+", "90");
+
+                else if(inOTP[i].getPolar() == "135")
+                    otp_[i] = Qubit("1", "x", "135");
+
+            } else {
+                otp_[i] = Qubit(bit_, basis_, polar_);
+            }
+
+        }
+        return otp_;
+    }
+
+    void randBasisPolarBit() {
+        if(rand() % 2 == 0) {
+            basis_ = "+";
+            if(rand() % 2 == 0) {
+                polar_ = "0";
+                bit_ = "1";
+            }
+            else {
+                polar_ = "90";
+                bit_ = "0";
+            }
+        } else {
+            basis_ = "x";
+            if(rand() % 2 == 0) {
+                polar_ = "45";
+                bit_ = "0";
+            }
+            else {
+                polar_ = "135";
+                bit_ = "1";
+            }
+        }
+    }
+
+
+    void printOTP() { int i = 0; for(auto &q : otp_) { cout << i++ << ".) "; cout << q.getBit() << " " << q.getBasis() << " " << q.getPolar() << endl; } }
+
+    void printBOTP() { int i = 0; for(auto &str: botp_) { cout << i++ << ".) "; cout << str << endl; } }
+
+
+private:
+    string bit_;
+    string basis_;
+    string polar_;
+    vector<Qubit> otp_;
+    vector<string> botp_;
+};
 
 
 int main() {
     srand(time(0));
     Alice a;
     Bob b;
+    Eve e;
 
-    int size = 1000;
+    int size = 100000;
     vector<string> agreedOTP;
 
-    agreedOTP = a.compareOTP(b.measureOTP(a.generateOTP(size)));
+    if(rand() % 2 == 0) {
+        agreedOTP = a.compareOTP(b.measureOTP(e.measureOTP((a.generateOTP(size)))));
+    } else {
+        agreedOTP = a.compareOTP(b.measureOTP((a.generateOTP(size))));
+
+    }
 
 //    cout << endl << "Alice sends..." << endl;
 //
