@@ -6,6 +6,45 @@
 using std::cin; using std::cout; using std::endl;
 using std::string; using std::vector;
 
+
+
+class SimManager {
+public:
+    SimManager() : simCount_(0), simList_({}) {} 
+
+    SimManager(int simCount) {
+        simCount_ = simCount;
+        simList_.resize(simCount_);
+    }
+
+protected:
+    int simCount_;
+    vector<BB84> simList_;
+};
+
+class Alice;
+class Bob;
+class Eve;
+
+class BB84 {
+public:
+    BB84() : a_(Alice()), b_(Bob()), e_(Eve()), errorRate_(0), detectEve_(false) {}
+
+    
+
+
+
+
+private:
+    Alice a_;
+    Bob b_;
+    Eve e_;
+
+    double errorRate_;
+    bool detectEve_;
+};
+
+
 class Qubit {
 public:
     Qubit() : bit_("1"), basis_("+"), polar_("0") {}
@@ -254,34 +293,11 @@ private:
 };
 
 
+
+
 int main() {
-    srand(time(0));
-    Alice a;
-    Bob b;
-    Eve e;
 
-    int size = 10;
-    vector<string> agreedOTP;
 
-    if(rand() % 2 == 0) {
-        agreedOTP = a.compareOTP(b.measureOTP(e.measureOTP((a.generateOTP(size)))));
-    } else {
-        agreedOTP = a.compareOTP(b.measureOTP((a.generateOTP(size))));
 
-    }
-
-//    cout << endl << "Alice sends..." << endl;
-//
-//    a.printOTP();
-//
-//    cout << endl << "Bob measures..." << endl;
-//
-//    b.printOTP();
-//
-//    cout << endl << "Agreed OTP after comparison..." << endl;
-//
-//    a.printBOTP();
-//
-    cout << endl << "Amount of Bits: " << agreedOTP.size() << " / " << size << endl;
-
+    return 0;
 }

@@ -6,6 +6,7 @@
 using std::cin; using std::cout; using std::endl;
 using std::string; using std::vector;
 
+
 class Qubit {
 public:
     Qubit() : bit_("1"), basis_("+"), polar_("0") {}
@@ -253,35 +254,88 @@ private:
     vector<string> botp_;
 };
 
+class BB84 {
+public:
+    BB84() : a_(Alice()), b_(Bob()), e_(Eve()), errorRate_(0), eveIntercept_(false), detectEve_(false) {}
 
-int main() {
-    srand(time(0));
-    Alice a;
-    Bob b;
-    Eve e;
+    void runProtocol(int keySize, bool EveIntercept) {
+        if(EveIntercept) {
+            agreedOTP_ = a_.compareOTP(b_.measureOTP(e_.measureOTP((a_.generateOTP(keySize)))));
+            eveIntercept_ = true;
+        } else {
+            agreedOTP_ = a_.compareOTP(b_.measureOTP(a_.generateOTP(keySize)));
+            eveIntercept_ = false;
+        }
+        errorRate_ = ((agreedOTP_.size() * 100)/ keySize);
 
-    int size = 10;
-    vector<string> agreedOTP;
-
-    if(rand() % 2 == 0) {
-        agreedOTP = a.compareOTP(b.measureOTP(e.measureOTP((a.generateOTP(size)))));
-    } else {
-        agreedOTP = a.compareOTP(b.measureOTP((a.generateOTP(size))));
-
+        if(errorRate_ < 40)
+            detectEve_ = true;
     }
 
-//    cout << endl << "Alice sends..." << endl;
-//
-//    a.printOTP();
-//
-//    cout << endl << "Bob measures..." << endl;
-//
-//    b.printOTP();
-//
-//    cout << endl << "Agreed OTP after comparison..." << endl;
-//
-//    a.printBOTP();
-//
-    cout << endl << "Amount of Bits: " << agreedOTP.size() << " / " << size << endl;
+    Alice getAlice() { return a_; }
 
+    int getErrorRate() { return errorRate_; }
+    bool getEveIntercept() { return eveIntercept_; }
+    bool getDetectEve() { return detectEve_; }
+    vector<string> getAgreedOTP() { return agreedOTP_; }
+    
+private:
+    Alice a_;
+    Bob b_;
+    Eve e_;
+
+    int errorRate_;
+    bool eveIntercept_;
+    bool detectEve_;
+    vector<string> agreedOTP_;
+};
+
+class SimManager {
+public:
+    SimManager() : simCount_(0), simList_({}) {} 
+
+    SimManager(int simCount) {
+        simCount_ = simCount;
+        simList_.resize(simCount_);
+    }
+
+    void runSim(int keySize, int EveInterceptChance) {
+//        for(int i = 0; i < simCount_; i++) {
+//            simList_[i].runProtocol(keySize, true);
+//        }
+        for(int i = 0; i < simCount_; i++) {
+            if(rand() % EveInterceptChance == 0) {
+                simList_[i].runProtocol(keySize, true);
+            } else {
+                simList_[i].runProtocol(keySize, false);
+            }
+        }
+    }
+
+    void simResults() {
+        cout << "Sim Count: " << simCount_ << endl << endl;
+        for(int i = 0; i < simCount_; i++) {
+            cout << "Sim #" << i << endl;
+            cout << "Eve Intercept: " << simList_[i].getEveIntercept() << endl;
+            cout << "Error Rate: " << simList_[i].getErrorRate() << endl;
+            cout << "Eve Detection: " << simList_[i].getDetectEve() << endl;
+            cout << "Agreed OTP: " << endl;
+            simList_[i].getAlice().printBOTP();
+            cout << endl;
+        }
+    }
+
+
+protected:
+    int simCount_;
+    vector<BB84> simList_;
+};
+
+int main() {
+    SimManager s(10);
+
+    s.runSim(50, 2);
+
+    s.simResults();
+    return 0;
 }
