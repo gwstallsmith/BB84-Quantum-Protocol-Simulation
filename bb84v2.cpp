@@ -319,8 +319,8 @@ public:
             cout << "Eve Intercept: " << simList_[i].getEveIntercept() << endl;
             cout << "Error Rate: " << simList_[i].getErrorRate() << endl;
             cout << "Eve Detection: " << simList_[i].getDetectEve() << endl;
-            cout << "Agreed OTP: " << endl;
-            simList_[i].getAlice().printBOTP();
+            //cout << "Agreed OTP: " << endl;
+            //simList_[i].getAlice().printBOTP();
             cout << endl;
         }
     }
@@ -334,7 +334,7 @@ protected:
 int main() {
     SimManager s(10);
 
-    s.runSim(50, 2);
+    s.runSim(100, 2);
 
     s.simResults();
     return 0;

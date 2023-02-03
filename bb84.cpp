@@ -260,7 +260,7 @@ int main() {
     Bob b;
     Eve e;
 
-    int size = 10;
+    int size = 1000;
     vector<string> agreedOTP;
 
     if(rand() % 2 == 0) {
