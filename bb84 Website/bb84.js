@@ -259,3 +259,5 @@ class SimManager {
         }
     }
 }
+
+export{Photon, Alice, Bob, Eve, BB84, SimManager}
