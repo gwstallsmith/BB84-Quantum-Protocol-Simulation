@@ -55,10 +55,7 @@ class Alice {
 
     compareOTP(inOTP) {
         for(let i = 0; i < inOTP.length; ++i) {
-            //if((this.otp_[i].getBit() == "0" || this.otp_[i].getBit() == "1") && (inOTP[i].getBit() == 0 || inOTP[i].getBit() == 1)) {
-            //    this.botp_.push(inOTP[i].getBit());
-            //}
-            if(this.otp_[i].getBit() == inOTP[i].getBit() && this.otp_[i].getBasis() == inOTP[i].getBasis()) {
+            if(this.otp_[i].getBit() == inOTP[i].getBit()) {
                 this.botp_.push(inOTP[i].getBit());
             }
         }
@@ -235,9 +232,7 @@ class BB84 {
             this.eveIntercept_ = false;
         }
 
-        console.log(this.agreedOTP_.length + " / " + keySize);
-
-        this.errorRate_ = (1 - (this.agreedOTP_.length / keySize)) * 100;
+        this.errorRate_ = Math.ceil((1 - (this.agreedOTP_.length / keySize)) * 100);
 
         if(this.errorRate_ > 70)
             this.eveDetect_ = true;
@@ -259,9 +254,9 @@ class SimManager {
 
     }
 
-    runSim(keySize, eveInterceptChance) {
+    runSim(keySize) {
         for(let i = 0; i < this.simCount_; i++) {
-            if(Math.floor(Math.random() * eveInterceptChance) % 2 == 0) {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
                 this.simList_[i].runProtocol(keySize, true);
             } else {
                 this.simList_[i].runProtocol(keySize, false)
@@ -272,7 +267,7 @@ class SimManager {
     simResults() {
         for(let i = 0; i < this.simCount_; ++i) {
             console.log("Sim #" + (i + 1));
-            console.log("Error Rate: " + this.simList_[i].getErrorRate());
+            console.log("Error Rate: " + this.simList_[i].getErrorRate() + "%");
             console.log("Eve Intercept: " + this.simList_[i].getEveIntercept());
             console.log("Eve Detection: " + this.simList_[i].getEveDetect() + "\n" + "\n");
         }
@@ -281,6 +276,6 @@ class SimManager {
 
 function main() {
     let s = new SimManager(10);
-    s.runSim(1024, 2);
+    s.runSim(1024);
     s.simResults()
 }
