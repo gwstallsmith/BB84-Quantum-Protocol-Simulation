@@ -48,6 +48,9 @@ class Alice {
     generateOTP(size) {
         for(let i = 0; i < size; ++i) {
             this.randBitBasisPolar()
+            console.log(this.bit_)
+            console.log(this.basis_)
+            console.log(this.polar_)
             this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_))
         }
         return this.otp_;
@@ -227,13 +230,14 @@ class BB84 {
         if(eveIntercept) {
             this.agreedOTP_ = this.a_.compareOTP(this.b_.measureOTP(this.e_.measureOTP(this.a_.generateOTP(keySize))));
             this.eveIntercept_ = true;
-        } else 
+        } else {
             this.agreedOTP_ = this.a_.compareOTP(this.b_.measureOTP(this.a_.generateOTP(keySize)));
-
+            this.eveIntercept_ = false;
+        }
 
         this.errorRate_ = ((this.agreedOTP_.length * 100) / keySize);
 
-        if(this.errorRate_ < 40)
+        if(this.errorRate_ > 40)
             this.eveDetect_ = true;
     }
 
@@ -253,28 +257,28 @@ class SimManager {
 
     }
 
-    runSim(keySize, eveInterceptChance) {
+    runSim(keySize) {
         for(let i = 0; i < this.simCount_; i++) {
-            //if(Math.random() % eveInterceptChance == 0) {
-            //    this.simList_[i].runProtocol(keySize, true);
-            //} else {
+            if(Math.random() % 2 == 0) {
+                this.simList_[i].runProtocol(keySize, true);
+            } else {
                 this.simList_[i].runProtocol(keySize, false)
-            //}
+            }
         }
     }
 
     simResults() {
         for(let i = 0; i < this.simCount_; ++i) {
-            console.log("Sim #" + i);
+            console.log("Sim #" + (i + 1));
             console.log("Error Rate: " + this.simList_[i].getErrorRate());
             console.log("Eve Intercept: " + this.simList_[i].getEveIntercept());
-            console.log("Eve Detection: " + this.simList_[i].getErrorRate() + "\n");
+            console.log("Eve Detection: " + this.simList_[i].getEveDetect() + "\n" + "\n");
         }
     }
 }
 
 function main() {
     let s = new SimManager(10);
-    s.runSim(100, 2);
+    s.runSim(10, 2);
     s.simResults()
 }

@@ -300,9 +300,6 @@ public:
     }
 
     void runSim(int keySize, int EveInterceptChance) {
-//        for(int i = 0; i < simCount_; i++) {
-//            simList_[i].runProtocol(keySize, true);
-//        }
         for(int i = 0; i < simCount_; i++) {
             if(rand() % EveInterceptChance == 0) {
                 simList_[i].runProtocol(keySize, true);
