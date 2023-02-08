@@ -24,9 +24,9 @@ class Alice {
     }
 
     randBitBasisPolar() {
-        if(Math.random() % 2 == 0){
+        if(Math.floor(Math.random() * 2) % 2 == 0){
             this.basis_ = "+";
-            if(Math.random() % 2 == 0) {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
                 this.polar_ = "0";
                 this.bit_ = "1";
             } else {
@@ -35,7 +35,7 @@ class Alice {
             }
         } else {
             this.basis_ = "x"
-            if(Math.random() % 2 == 0) {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
                 this.polar_ = "45";
                 this.bit_ = "0";
             } else {
@@ -48,9 +48,9 @@ class Alice {
     generateOTP(size) {
         for(let i = 0; i < size; ++i) {
             this.randBitBasisPolar()
-            console.log(this.bit_)
-            console.log(this.basis_)
-            console.log(this.polar_)
+            //console.log(this.bit_)
+            //console.log(this.basis_)
+            //console.log(this.polar_)
             this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_))
         }
         return this.otp_;
@@ -58,7 +58,7 @@ class Alice {
 
     compareOTP(inOTP) {
         for(let i = 0; i < inOTP.length; ++i) {
-            if(this.otp_[i] == inOTP[i]) {
+            if((this.otp_[i].getBit() == "0" || this.otp_[i].getBit() == "1") && (inOTP[i].getBit() == 0 || inOTP[i].getBit() == 1)) {
                 this.botp_.push(inOTP[i].getBit());
             }
         }
@@ -87,9 +87,9 @@ class Bob {
     }
 
     randBitBasisPolar() {
-        if(Math.random() % 2 == 0){
+        if(Math.floor(Math.random() * 2) % 2 == 0){
             this.basis_ = "+";
-            if(Math.random() % 2 == 0) {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
                 this.polar_ = "0";
                 this.bit_ = "1";
             } else {
@@ -98,7 +98,7 @@ class Bob {
             }
         } else {
             this.basis_ = "x";
-            if(Math.random() % 2 == 0) {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
                 this.polar_ = "45";
                 this.bit_ = "0";
             } else {
@@ -154,9 +154,9 @@ class Eve {
     }
 
     randBitBasisPolar() {
-        if(Math.random() % 2 == 0){
+        if(Math.floor(Math.random() * 2) % 2 == 0){
             this.basis_ = "+";
-            if(Math.random() % 2 == 0) {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
                 this.polar_ = "0";
                 this.bit_ = "1";
             } else {
@@ -165,7 +165,7 @@ class Eve {
             }
         } else {
             this.basis_ = "x";
-            if(Math.random() % 2 == 0) {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
                 this.polar_ = "45";
                 this.bit_ = "0";
             } else {
@@ -235,9 +235,11 @@ class BB84 {
             this.eveIntercept_ = false;
         }
 
-        this.errorRate_ = ((this.agreedOTP_.length * 100) / keySize);
+        console.log(this.agreedOTP_.length + " / " + keySize);
 
-        if(this.errorRate_ > 40)
+        this.errorRate_ = (this.agreedOTP_.length / keySize) * 100;
+
+        if(this.errorRate_ < 35)
             this.eveDetect_ = true;
     }
 
@@ -257,9 +259,9 @@ class SimManager {
 
     }
 
-    runSim(keySize) {
+    runSim(keySize, eveInterceptChance) {
         for(let i = 0; i < this.simCount_; i++) {
-            if(Math.random() % 2 == 0) {
+            if(Math.floor(Math.random() * eveInterceptChance) % 2 == 0) {
                 this.simList_[i].runProtocol(keySize, true);
             } else {
                 this.simList_[i].runProtocol(keySize, false)
@@ -279,6 +281,6 @@ class SimManager {
 
 function main() {
     let s = new SimManager(10);
-    s.runSim(10, 2);
+    s.runSim(1024, 2);
     s.simResults()
 }
