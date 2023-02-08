@@ -48,9 +48,6 @@ class Alice {
     generateOTP(size) {
         for(let i = 0; i < size; ++i) {
             this.randBitBasisPolar()
-            //console.log(this.bit_)
-            //console.log(this.basis_)
-            //console.log(this.polar_)
             this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_))
         }
         return this.otp_;
@@ -58,7 +55,10 @@ class Alice {
 
     compareOTP(inOTP) {
         for(let i = 0; i < inOTP.length; ++i) {
-            if((this.otp_[i].getBit() == "0" || this.otp_[i].getBit() == "1") && (inOTP[i].getBit() == 0 || inOTP[i].getBit() == 1)) {
+            //if((this.otp_[i].getBit() == "0" || this.otp_[i].getBit() == "1") && (inOTP[i].getBit() == 0 || inOTP[i].getBit() == 1)) {
+            //    this.botp_.push(inOTP[i].getBit());
+            //}
+            if(this.otp_[i].getBit() == inOTP[i].getBit() && this.otp_[i].getBasis() == inOTP[i].getBasis()) {
                 this.botp_.push(inOTP[i].getBit());
             }
         }
@@ -237,9 +237,9 @@ class BB84 {
 
         console.log(this.agreedOTP_.length + " / " + keySize);
 
-        this.errorRate_ = (this.agreedOTP_.length / keySize) * 100;
+        this.errorRate_ = (1 - (this.agreedOTP_.length / keySize)) * 100;
 
-        if(this.errorRate_ < 35)
+        if(this.errorRate_ > 70)
             this.eveDetect_ = true;
     }
 
