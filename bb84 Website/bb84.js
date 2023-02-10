@@ -273,3 +273,39 @@ class SimManager {
         }
     }
 }
+
+class AnimManager {
+    constructor() {
+        this.animObjects = [];
+        createCanvas(window.innerWidth, window.innerHeight);
+    }
+
+    queue(animObject) {
+        this.animObjects.push(animObject);
+    }
+
+    dequeue() {
+        for(let i = 0; i < this.animObjects.length; ++i) {
+        }
+    }
+
+}
+
+class AnimObject {
+    constructor(x, y, asset) {
+        this.x = x;
+        this.y = y;
+
+        this.position = new p5.vector(x, y);
+        this.collider = false;
+
+        this.img = createImg(asset, 'Asset');
+    }
+}
+
+class PhotonAnim {
+
+}
+class AliceAnim {}
+class BobAnim {}
+class EveAnim {}
