@@ -273,28 +273,3 @@ class SimManager {
         }
     }
 }
-
-class AnimManager {
-    constructor() {
-        this.animObjects = [];
-        createCanvas(window.innerWidth, window.innerHeight);
-
-        this.alice = createImg('https://github.com/gwstallsmith/BB84-Quantum-Protocol-Simulation/blob/main/bb84%20Website/assets/alice.png?raw=true', 'Alice' );
-        this.alice.position(window.innerWidth * (1/3), window.innerHeight * (1/3));
-    
-        this.bob = createImg('https://github.com/gwstallsmith/BB84-Quantum-Protocol-Simulation/blob/main/bb84%20Website/assets/bob.png?raw=true', 'Bob' );
-        this.bob.position(window.innerWidth * (2/3), window.innerHeight * (1/3));
-
-        this.bobBasis = createImg('https://github.com/gwstallsmith/BB84-Quantum-Protocol-Simulation/blob/main/bb84%20Website/assets/+measure.png?raw=true', 'Bob Basis');
-        this.bobBasis.position(window.innerWidth * (7/12), window.innerHeight * (1/3));
-
-
-        this.eve = createImg('https://github.com/gwstallsmith/BB84-Quantum-Protocol-Simulation/blob/main/bb84%20Website/assets/eve.png?raw=true', 'Eve' );
-        this.eve.position(window.innerWidth * (1/2), window.innerHeight * (1/4));
-
-        this.eveBasis = createImg('https://github.com/gwstallsmith/BB84-Quantum-Protocol-Simulation/blob/main/bb84%20Website/assets/+measure.png?raw=true', 'Bob Basis');
-        this.eveBasis.position(window.innerWidth * (1/2), window.innerHeight * (1/3));
-         
-    }
-
-}
