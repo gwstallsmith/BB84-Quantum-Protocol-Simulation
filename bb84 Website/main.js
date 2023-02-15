@@ -24,6 +24,8 @@ let winBackground;
 
 let x = window.innerWidth * (1/3);
 
+let photon;
+
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
 }
@@ -42,15 +44,24 @@ function preload() {
     hundredthirtyfiveDeg = loadImage('1x135.png');
 
     background = loadImage('background.png');
+
+    photon = zeroDeg;
+    image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32)
+
 }
 
 function draw() {
     ++x;
-    image(zeroDeg, x, window.innerHeight * (1/3), 32, 32)
+    image(photon, x, window.innerHeight * (1/3), 32, 32)
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
-        image(zeroDeg, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32)
         x =  window.innerWidth * (1/3);
+
+        if(Math.floor(Math.random() * 2) % 2 == 0) {
+            photon = zeroDeg;
+        } else {
+            photon = fortyfiveDeg;
+        }
     }
 
     image(alice, window.innerWidth * (1/3) - 32, window.innerHeight * (1/3));

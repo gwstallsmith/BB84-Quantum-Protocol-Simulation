@@ -46,7 +46,7 @@ class Alice {
     }
 
     generateOTP(size) {
-        for(let i = 0; i < size; ++i) {
+        for(let i = 0; i < size; i++) {
             this.randBitBasisPolar()
             this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_))
         }
@@ -54,8 +54,8 @@ class Alice {
     }
 
     compareOTP(inOTP) {
-        for(let i = 0; i < inOTP.length; ++i) {
-            if(this.otp_[i].getBit() == inOTP[i].getBit()) {
+        for(let i = 0; i < inOTP.length; i++) {
+            if((this.otp_[i].getBasis() == inOTP[i].getBasis()) && (this.otp_[i].getBit() == inOTP[i].getBit()) && (this.otp_[i].getPolar() == inOTP[i].getPolar())) {
                 this.botp_.push(inOTP[i].getBit());
             }
         }
@@ -63,13 +63,13 @@ class Alice {
     }
 
     printOTP() {
-        for(let i = 0; i < this.otp_.length; ++i) {
+        for(let i = 0; i < this.otp_.length; i++) {
             console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_.getPolar());
         }
     }
 
     printBOTP() {
-        for(let i = 0; i < this.botp_.length; ++i) {
+        for(let i = 0; i < this.botp_.length; i++) {
             console.log(i + ".) " + this.botp_[i]);
         }
     }
@@ -106,7 +106,7 @@ class Bob {
     }
 
     measureOTP(inOTP) {
-        for(let i = 0; i < inOTP.length; ++i) {
+        for(let i = 0; i < inOTP.length; i++) {
             this.randBitBasisPolar();
             if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() == this.polar_) {
                 this.otp_.push(inOTP[i]);
@@ -130,13 +130,13 @@ class Bob {
     }
 
     printOTP() {
-        for(let i = 0; i < this.otp_.length; ++i) {
+        for(let i = 0; i < this.otp_.length; i++) {
             console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_.getPolar());
         }
     }
 
     printBOTP() {
-        for(let i = 0; i < this.botp_.length; ++i) {
+        for(let i = 0; i < this.botp_.length; i++) {
             console.log(i + ".) " + this.botp_[i]);
         }
     }
@@ -173,7 +173,7 @@ class Eve {
     }
 
     measureOTP(inOTP) {
-        for(let i = 0; i < inOTP.length; ++i) {
+        for(let i = 0; i < inOTP.length; i++) {
             this.randBitBasisPolar()
             if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() == this.polar_) {
                 this.otp_.push(inOTP[i]);
@@ -197,13 +197,13 @@ class Eve {
     }
 
     printOTP() {
-        for(let i = 0; i < this.otp_.length; ++i) {
+        for(let i = 0; i < this.otp_.length; i++) {
             console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_.getPolar());
         }
     }
 
     printBOTP() {
-        for(let i = 0; i < this.botp_.length; ++i) {
+        for(let i = 0; i < this.botp_.length; i++) {
             console.log(i + ".) " + this.botp_[i]);
         }
     }
@@ -248,7 +248,7 @@ class SimManager {
     constructor(simCount) {
         this.simCount_ = simCount;
         this.simList_ = [];
-        for(let i = 0; i < simCount; ++i) {
+        for(let i = 0; i < simCount; i++) {
             this.simList_.push(new BB84());
         }
 
@@ -265,7 +265,7 @@ class SimManager {
     }
 
     simResults() {
-        for(let i = 0; i < this.simCount_; ++i) {
+        for(let i = 0; i < this.simCount_; i++) {
             console.log("Sim #" + (i + 1));
             console.log("Error Rate: " + this.simList_[i].getErrorRate() + "%");
             console.log("Eve Intercept: " + this.simList_[i].getEveIntercept());
