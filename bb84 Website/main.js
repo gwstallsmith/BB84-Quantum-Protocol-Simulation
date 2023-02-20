@@ -43,15 +43,18 @@ function preload() {
     ninetyDeg = loadImage('0+90.png');
     hundredthirtyfiveDeg = loadImage('1x135.png');
 
-    background = loadImage('background.png');
+    winBackground = loadImage('background.png');
 
     photon = zeroDeg;
     image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32)
+    
 
 }
 
 function draw() {
-    ++x;
+    background(winBackground);
+
+    x += 5;
     image(photon, x, window.innerHeight * (1/3), 32, 32)
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
@@ -59,8 +62,10 @@ function draw() {
 
         if(Math.floor(Math.random() * 2) % 2 == 0) {
             photon = zeroDeg;
+
         } else {
             photon = fortyfiveDeg;
+
         }
     }
 
