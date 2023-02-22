@@ -77,6 +77,4 @@ function draw() {
     image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3));
 
 
-
-
 }
