@@ -1,30 +1,125 @@
 class AnimManager {
     constructor() {
-        this.photons_ = [];
+        if(AnimManager.instance instanceof AnimManager) {
+            return AnimManager.instance;
+        }
+
+        this.AnimManagerObject = {};
+        
+        this.alicePhotons_ = [];
+        this.evePhotons_ = [];
         this.bobMeasure_ = [];
         this.eveMeasure_ = [];
+
+        Object.freeze(this.AnimManagerObject);
+        Object.freeze(this);
+        AnimManager.instance = this;
     }
 
-    pushPhoton(photon) {
-        if(photon == new Photon("1", "+", "0"))
-            this.photons_.push("zeroDeg");
-        else if(photon == new Photon("0", "x", "45"))
-            this.photons_.push("fortyfiveDeg");
-        else if(photon == new Photon("0", "+", "90"))
-            this.photons_.push("ninetyDeg");
-        else if(photon == new Photon("1", "x", "135"))
-            this.photons_.push("hundredthirtyfiveDeg")
+    getAlicePhotons() {
+        return this.alicePhotons_;
+    }
+    getEvePhotons() {
+        return this.evePhotons_;
+    }
+    getBobMeasure() {
+        return this.bobMeasure_;
+    }
+    getEveMeasure() {
+        return this.eveMeasure_;
     }
 
-    pushBobMeasure() {
+
+    pushAlicePhoton(photon) {
+        if(photon.getBasis() == "+") {
+            if(photon.getPolar() == "0") {
+                this.alicePhotons_.push("zeroDeg");
+
+            } else if(photon.getPolar() == "90") {
+                this.alicePhotons_.push("ninetyDeg");
+            }
+
+        } else if(photon.getBasis() == "x") {
+            if(photon.getPolar() == "45") {
+                this.alicePhotons_.push("fortyfiveDeg");
+
+            } else if(photon.getPolar() == "135") {
+                this.alicePhotons_.push("hundredthirtyfiveDeg");
+            }
+
+        }
+    }
+
+    pushEvePhoton(photon) {
+        if(photon.getBasis() == "+") {
+            if(photon.getPolar() == "0") {
+                this.evePhotons_.push("zeroDeg");
+
+            } else if(photon.getPolar() == "90") {
+                this.evePhotons_.push("ninetyDeg");
+            }
+
+        } else if(photon.getBasis() == "x") {
+            if(photon.getPolar() == "45") {
+                this.evePhotons_.push("fortyfiveDeg");
+
+            } else if(photon.getPolar() == "135") {
+                this.evePhotons_.push("hundredthirtyfiveDeg");
+            }
+
+        }
+    }
+
+    pushBobMeasure(basis) {
+        if(basis == "+") {
+            this.bobMeasure_.push("+");
+
+        } else if (basis == "x") {
+            this.bobMeasure_.push("x");
+
+        }
+    }
+
+    pushEveMeasure(basis) {
+        if(basis == "+") {
+            this.eveMeasure_.push("+");
+
+        } else if (basis == "x") {
+            this.eveMeasure_.push("x");
+            
+        }
+    }
+
+
+    printAlicePhotons() {
+        console.log("Photons sent by Alice");
+        for(let i = 0; i < this.alicePhotons_.length; ++i) {
+            console.log(this.alicePhotons_[i]);
+        }
+    }
+
+    printEvePhotons() {
+        console.log("Photons sent by Eve");
+        for(let i = 0; i < this.evePhotons_.length; ++i) {
+            console.log(this.evePhotons_[i]);
+        }
+    }
+
+    printBEMeasure() {
+        console.log("Bob");
+        for(let i = 0; i < this.bobMeasure_.length; ++i) {
+            console.log(this.bobMeasure_[i]);
+        }
+
+        console.log("Eve");
+        for(let i = 0; i < this.eveMeasure_.length; ++i) {
+            console.log(this.eveMeasure_[i]);
+        }
 
     }
 
-    pushEveMeasure() {
 
-    }
-
-}
+};
 
 class Photon {
     constructor(bit, basis, polar){
@@ -49,6 +144,8 @@ class Alice {
         this.polar_ = "0";
         this.otp_ = [];
         this.botp_ = [];
+
+        this.am_ = new AnimManager();
     }
 
     randBitBasisPolar() {
@@ -76,7 +173,8 @@ class Alice {
     generateOTP(size) {
         for(let i = 0; i < size; i++) {
             this.randBitBasisPolar()
-            this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_))
+            this.am_.pushAlicePhoton(new Photon(this.bit_, this.basis_, this.polar_));
+            this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_));
         }
         return this.otp_;
     }
@@ -109,6 +207,8 @@ class Bob {
         this.basis_ = "+";
         this.polar_ = "0";
         this.otp_ = [];
+
+        this.am_ = new AnimManager();
     }
 
     randBitBasisPolar() {
@@ -136,6 +236,9 @@ class Bob {
     measureOTP(inOTP) {
         for(let i = 0; i < inOTP.length; i++) {
             this.randBitBasisPolar();
+
+            this.am_.pushBobMeasure(this.basis_);
+
             if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() == this.polar_) {
                 this.otp_.push(inOTP[i]);
             } else if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() != this.polar_) {
@@ -176,6 +279,8 @@ class Eve {
         this.basis_ = "+";
         this.polar_ = "0";
         this.otp_ = [];
+
+        this.am_ = new AnimManager();
     }
 
     randBitBasisPolar() {
@@ -202,21 +307,31 @@ class Eve {
 
     measureOTP(inOTP) {
         for(let i = 0; i < inOTP.length; i++) {
-            this.randBitBasisPolar()
+            this.randBitBasisPolar();
+
+            this.am_.pushEveMeasure(this.basis_);
+
             if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() == this.polar_) {
                 this.otp_.push(inOTP[i]);
+                this.am_.pushEvePhoton(inOTP[i]);
+
             } else if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() != this.polar_) {
-                if(inOTP[i].getPolar() == "0")
+                if(inOTP[i].getPolar() == "0") {
                     this.otp_.push(new Photon("1", "+", "0"));
+                    this.am_.pushEvePhoton(new Photon("1", "+", "0"));
                 
-                else if(inOTP[i].getPolar() == "45")
+                } else if(inOTP[i].getPolar() == "45"){
                     this.otp_.push(new Photon("0", "x", "45"));
+                    this.am_.pushEvePhoton(new Photon("0", "x", "45"));
 
-                else if(inOTP[i].getPolar() == "90")
+                } else if(inOTP[i].getPolar() == "90"){
                     this.otp_.push(new Photon("0", "+", "90"));
+                    this.am_.pushEvePhoton(new Photon("0", "+", "90"));
 
-                else if(inOTP[i].getPolar() == "135")
+                } else if(inOTP[i].getPolar() == "135")
                     this.otp_.push(new Photon("1", "x", "134"));
+                    this.am_.pushEvePhoton(new Photon("1", "x", "134"));
+
             } else {
                 this.otp_.push(new Photon("U", this.basis_, this.polar_));
             }
@@ -279,11 +394,35 @@ class BB84 {
     }
 }
 
+let keysize;
+let am = new AnimManager();
+
+let ap;
+let ep;
+let ab;
+let ae;
+
+
 
 function main() {
+    keysize = 4;
+
     let b = new BB84();
-    b.runProtocol(512, false);
+    b.runProtocol(keysize, true);
     b.simResults();
+
+
+    ap = am.getAlicePhotons();
+    ep = am.getEvePhotons();
+    ab = am.getBobMeasure();
+    ae = am.getEveMeasure();
+
+
+    am.printAlicePhotons();
+    am.printEvePhotons();
+    am.printBEMeasure();
+
+    
 }
 
 let alice;
@@ -304,6 +443,8 @@ let x = window.innerWidth * (1/3);
 
 let photon;
 
+let inc;
+
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
 }
@@ -313,8 +454,12 @@ function preload() {
     bob = loadImage('bob.png');
     eve = loadImage('eve.png');
 
-    bobBasis = loadImage('+measure.png');
-    eveBasis = loadImage('+measure.png');
+    plusMeasure = loadImage('+measure.png');
+    xMeasure = loadImage('xmeasure.png');
+
+    bobBasis = plusMeasure;
+    eveBasis = xMeasure;
+
 
     zeroDeg = loadImage('1+0.png');
     fortyfiveDeg = loadImage('0x45.png');
@@ -322,6 +467,8 @@ function preload() {
     hundredthirtyfiveDeg = loadImage('1x135.png');
 
     winBackground = loadImage('background.png');
+
+    inc = 0;
 
     photon = zeroDeg;
     image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32)
@@ -332,27 +479,64 @@ function preload() {
 function draw() {
     background(winBackground);
 
-    x += 5;
+
+    
+    if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (1/2))) {
+        if(ap[inc] == "zeroDeg") {
+            photon = zeroDeg;
+        } else if(ap[inc] == "fortyfiveDeg") {
+            photon = fortyfiveDeg;
+        } else if(ap[inc] == "ninetyDeg") {
+            photon = ninetyDeg;
+        } else if(ap[inc] == "hundredthirtyfiveDeg") {
+            photon = hundredthirtyfiveDeg;
+        }
+    }
+    else if((x <= window.innerWidth * (1/2)) || (x > window.innerWidth * (2/3))) {
+        if(ep[inc] == "zeroDeg") {
+            photon = zeroDeg;
+        } else if(ep[inc] == "fortyfiveDeg") {
+            photon = fortyfiveDeg;
+        } else if(ep[inc] == "ninetyDeg") {
+            photon = ninetyDeg;
+        } else if(ep[inc] == "hundredthirtyfiveDeg") {
+            photon = hundredthirtyfiveDeg;
+        }
+    }
+
+
+    console.log(ap[inc]);
+
+    x += 1;
     image(photon, x, window.innerHeight * (1/3), 32, 32)
+
+    
+    if(ab[inc] == "+") {
+        bobBasis = plusMeasure;
+    } else if(ab[inc] == "x") {
+        bobBasis = xMeasure;
+    }
+
+    if(ae[inc] == "+") {
+        eveBasis = plusMeasure;
+    } else if(ae[inc] == "x") {
+        eveBasis = xMeasure;
+    }
+
+
+    image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3));
+    image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3));
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
-
-        if(Math.floor(Math.random() * 2) % 2 == 0) {
-            photon = zeroDeg;
-
-        } else {
-            photon = fortyfiveDeg;
-
-        }
+    
+        inc++;
     }
 
     image(alice, window.innerWidth * (1/3) - 32, window.innerHeight * (1/3));
     image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3));
     image(eve, window.innerWidth * (1/2), window.innerHeight * (1/3) - 40);
 
-    image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3));
-    image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3));
-
+    if(inc >= keysize) { location.reload() }
 
 }
