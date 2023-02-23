@@ -252,7 +252,7 @@ class Bob {
                     this.otp_.push(new Photon("0", "+", "90"));
 
                 else if(inOTP[i].getPolar() == "135")
-                    this.otp_.push(new Photon("1", "x", "134"));
+                    this.otp_.push(new Photon("1", "x", "135"));
             } else {
                 this.otp_.push(new Photon("U", this.basis_, this.polar_));
             }
@@ -329,11 +329,13 @@ class Eve {
                     this.am_.pushEvePhoton(new Photon("0", "+", "90"));
 
                 } else if(inOTP[i].getPolar() == "135")
-                    this.otp_.push(new Photon("1", "x", "134"));
-                    this.am_.pushEvePhoton(new Photon("1", "x", "134"));
+                    this.otp_.push(new Photon("1", "x", "135"));
+                    this.am_.pushEvePhoton(new Photon("1", "x", "135"));
 
             } else {
-                this.otp_.push(new Photon("U", this.basis_, this.polar_));
+                this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_));
+                this.am_.pushEvePhoton(new Photon(this.bit_, this.basis_, this.polar_));
+
             }
         }
         return this.otp_
@@ -405,7 +407,7 @@ let ae;
 
 
 function main() {
-    keysize = 4;
+    keysize = 512;
 
     let b = new BB84();
     b.runProtocol(keysize, true);
@@ -418,9 +420,9 @@ function main() {
     ae = am.getEveMeasure();
 
 
-    am.printAlicePhotons();
-    am.printEvePhotons();
-    am.printBEMeasure();
+    //am.printAlicePhotons();
+    //am.printEvePhotons();
+    //am.printBEMeasure();
 
     
 }
@@ -537,6 +539,6 @@ function draw() {
     image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3));
     image(eve, window.innerWidth * (1/2), window.innerHeight * (1/3) - 40);
 
-    if(inc >= keysize) { location.reload() }
+    //if(inc >= keysize) { location.reload() }
 
 }
