@@ -161,7 +161,7 @@ class Alice {
                 this.bit_ = "0";
             }
         } else {
-            this.basis_ = "x"
+            this.basis_ = "x";
             if(Math.floor(Math.random() * 2) % 2 == 0) {
                 this.polar_ = "45";
                 this.bit_ = "0";
@@ -256,7 +256,7 @@ class Bob {
                 else if(inOTP[i].getPolar() == "135")
                     this.otp_.push(new Photon("1", "x", "135"));
             } else {
-                this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_));
+                this.otp_.push(new Photon("U", this.basis_, this.polar_));
             }
         }
         return this.otp_;
@@ -397,7 +397,7 @@ class BB84 {
     }
 }
 
-const keySize = 8;
+const keySize = 256;
 let am = new AnimManager();
 
 let ap;
@@ -420,11 +420,11 @@ function main() {
     ae = am.getEveMeasure();
 
 
-    am.printAlicePhotons();
-    console.log("\n");
-    am.printEvePhotons();
-
-    am.printBEMeasure();
+    //am.printAlicePhotons();
+    //console.log("\n");
+    //am.printEvePhotons();
+//
+    //am.printBEMeasure();
 
     
 }
@@ -481,7 +481,7 @@ function preload() {
 }
 
 function draw() {
-    background(50, 50, 50);
+    background(winBackground);
 
     if(ab[inc] == "+") {
         bobBasis = plusMeasure;
