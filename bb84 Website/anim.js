@@ -68,6 +68,8 @@ class AnimManager {
             }
 
         }
+        this.pushEveMeasure(photon.getBasis());
+
     }
 
     pushBobMeasure(basis) {
@@ -254,7 +256,7 @@ class Bob {
                 else if(inOTP[i].getPolar() == "135")
                     this.otp_.push(new Photon("1", "x", "135"));
             } else {
-                this.otp_.push(new Photon("U", this.basis_, this.polar_));
+                this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_));
             }
         }
         return this.otp_;
@@ -309,7 +311,6 @@ class Eve {
         for(let i = 0; i < inOTP.length; i++) {
             this.randBitBasisPolar();
 
-            this.am_.pushEveMeasure(this.basis_);
 
             if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() == this.polar_) {
                 this.otp_.push(inOTP[i]);
@@ -396,7 +397,7 @@ class BB84 {
     }
 }
 
-let keysize;
+const keySize = 8;
 let am = new AnimManager();
 
 let ap;
@@ -407,22 +408,23 @@ let ae;
 
 
 function main() {
-    keysize = 512;
-
     let b = new BB84();
-    b.runProtocol(keysize, true);
+    b.runProtocol(keySize, true);
     b.simResults();
 
 
     ap = am.getAlicePhotons();
     ep = am.getEvePhotons();
+
     ab = am.getBobMeasure();
     ae = am.getEveMeasure();
 
 
-    //am.printAlicePhotons();
-    //am.printEvePhotons();
-    //am.printBEMeasure();
+    am.printAlicePhotons();
+    console.log("\n");
+    am.printEvePhotons();
+
+    am.printBEMeasure();
 
     
 }
@@ -479,40 +481,8 @@ function preload() {
 }
 
 function draw() {
-    background(winBackground);
+    background(50, 50, 50);
 
-
-    
-    if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (1/2))) {
-        if(ap[inc] == "zeroDeg") {
-            photon = zeroDeg;
-        } else if(ap[inc] == "fortyfiveDeg") {
-            photon = fortyfiveDeg;
-        } else if(ap[inc] == "ninetyDeg") {
-            photon = ninetyDeg;
-        } else if(ap[inc] == "hundredthirtyfiveDeg") {
-            photon = hundredthirtyfiveDeg;
-        }
-    }
-    else if((x <= window.innerWidth * (1/2)) || (x > window.innerWidth * (2/3))) {
-        if(ep[inc] == "zeroDeg") {
-            photon = zeroDeg;
-        } else if(ep[inc] == "fortyfiveDeg") {
-            photon = fortyfiveDeg;
-        } else if(ep[inc] == "ninetyDeg") {
-            photon = ninetyDeg;
-        } else if(ep[inc] == "hundredthirtyfiveDeg") {
-            photon = hundredthirtyfiveDeg;
-        }
-    }
-
-
-    console.log(ap[inc]);
-
-    x += 1;
-    image(photon, x, window.innerHeight * (1/3), 32, 32)
-
-    
     if(ab[inc] == "+") {
         bobBasis = plusMeasure;
     } else if(ab[inc] == "x") {
@@ -526,12 +496,45 @@ function draw() {
     }
 
 
+    if((x < window.innerWidth * (1/3)) || (x < window.innerWidth * (1/2))) {
+        if(ap[inc] == "zeroDeg") {
+            photon = zeroDeg;
+        } else if(ap[inc] == "fortyfiveDeg") {
+            photon = fortyfiveDeg;
+        } else if(ap[inc] == "ninetyDeg") {
+            photon = ninetyDeg;
+        } else if(ap[inc] == "hundredthirtyfiveDeg") {
+            photon = hundredthirtyfiveDeg;
+        }
+    }
+    else if((x >= window.innerWidth * (1/2)) || (x > window.innerWidth * (2/3))) {
+        if(ep[inc] == "zeroDeg") {
+            photon = zeroDeg;
+        } else if(ep[inc] == "fortyfiveDeg") {
+            photon = fortyfiveDeg;
+        } else if(ep[inc] == "ninetyDeg") {
+            photon = ninetyDeg;
+        } else if(ep[inc] == "hundredthirtyfiveDeg") {
+            photon = hundredthirtyfiveDeg;
+        }
+    }
+
+    if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {        
+        console.log("Alice = " + ap[inc]);
+        console.log("Eve = " + ep[inc]);
+    }
+
+    image(photon, x, window.innerHeight * (1/3), 32, 32)
+
+    
     image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3));
     image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3));
 
+    x++;
+
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
-    
+
         inc++;
     }
 
@@ -539,6 +542,6 @@ function draw() {
     image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3));
     image(eve, window.innerWidth * (1/2), window.innerHeight * (1/3) - 40);
 
-    //if(inc >= keysize) { location.reload() }
+    if(inc >= keySize) { location.reload() }
 
 }
