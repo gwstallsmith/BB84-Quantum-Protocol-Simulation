@@ -529,7 +529,7 @@ function draw() {
     image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3));
     image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3));
 
-    x += 5;
+    x += 2;
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
