@@ -329,10 +329,10 @@ class Eve {
                     this.otp_.push(new Photon("0", "+", "90"));
                     this.am_.pushEvePhoton(new Photon("0", "+", "90"));
 
-                } else if(inOTP[i].getPolar() == "135")
+                } else if(inOTP[i].getPolar() == "135") {
                     this.otp_.push(new Photon("1", "x", "135"));
                     this.am_.pushEvePhoton(new Photon("1", "x", "135"));
-
+                }
             } else {
                 this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_));
                 this.am_.pushEvePhoton(new Photon(this.bit_, this.basis_, this.polar_));
@@ -530,7 +530,7 @@ function draw() {
     image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3));
     image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3));
 
-    x++;
+    x += 5;
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
