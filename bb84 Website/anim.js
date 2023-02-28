@@ -241,9 +241,8 @@ class Bob {
 
             this.am_.pushBobMeasure(this.basis_);
 
-            if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() == this.polar_) {
-                this.otp_.push(inOTP[i]);
-            } else if(inOTP[i].getBasis() == this.basis_ && inOTP[i].getPolar() != this.polar_) {
+            if(inOTP[i].getBasis() == this.basis_ ) {
+                
                 if(inOTP[i].getPolar() == "0")
                     this.otp_.push(new Photon("1", "+", "0"));
                 
