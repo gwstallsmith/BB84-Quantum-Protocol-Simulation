@@ -399,8 +399,8 @@ function main() {
     let settings = confirm("Would you like to enter settings?.\n\nOk = Yes\nCancel = No");
 
     if(settings) {
-        keySize = parseInt(prompt("Please enter Key size. (128 Default)"));
-        xSpeed = parseInt(prompt("Please enter photon speed. (1 Default)"));
+        keySize = parseInt(prompt("Please enter Key size.\n(128 Default)"));
+        xSpeed = parseInt(prompt("Please enter photon speed.\n(1 Default)"));
         eveIntercept = confirm("Please select if Eve is present.\n\nOk = Yes\nCancel = No");
         if(!eveIntercept) { eveIntercept = false; }
     }
@@ -475,46 +475,38 @@ function preload() {
 function draw() {
     background(winBackground);
 
-    if(ab[inc] == "+") {
-        bobBasis = plusMeasure;
-    } else if(ab[inc] == "x") {
-        bobBasis = xMeasure;
-    }
+    if(ab[inc] == "+") { bobBasis = plusMeasure; }
+    else if(ab[inc] == "x") { bobBasis = xMeasure; }
 
-    if(ae[inc] == "+") {
-        eveBasis = plusMeasure;
-    } else if(ae[inc] == "x") {
-        eveBasis = xMeasure;
-    }
+    if(ae[inc] == "+") { eveBasis = plusMeasure; }
+    else if(ae[inc] == "x") { eveBasis = xMeasure; }
 
-
-    if((x < window.innerWidth * (1/3)) || (x < window.innerWidth * (1/2))) {
-        if(ap[inc] == "zeroDeg") {
-            photon = zeroDeg;
-        } else if(ap[inc] == "fortyfiveDeg") {
-            photon = fortyfiveDeg;
-        } else if(ap[inc] == "ninetyDeg") {
-            photon = ninetyDeg;
-        } else if(ap[inc] == "hundredthirtyfiveDeg") {
-            photon = hundredthirtyfiveDeg;
+    if(eveIntercept) {
+        if((x < window.innerWidth * (1/3)) || (x < window.innerWidth * (1/2))) {
+            if(ap[inc] == "zeroDeg") { photon = zeroDeg; }
+            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; }
+            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; }
+            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; }
         }
-    }
-    else if((x >= window.innerWidth * (1/2)) || (x > window.innerWidth * (2/3))) {
-        if(ep[inc] == "zeroDeg") {
-            photon = zeroDeg;
-        } else if(ep[inc] == "fortyfiveDeg") {
-            photon = fortyfiveDeg;
-        } else if(ep[inc] == "ninetyDeg") {
-            photon = ninetyDeg;
-        } else if(ep[inc] == "hundredthirtyfiveDeg") {
-            photon = hundredthirtyfiveDeg;
+        if((x >= window.innerWidth * (1/2)) || (x > window.innerWidth * (2/3))) {
+            if(ep[inc] == "zeroDeg") { photon = zeroDeg; }
+            else if(ep[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; }
+            else if(ep[inc] == "ninetyDeg") { photon = ninetyDeg; }
+            else if(ep[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; }
         }
+    } else {
+        if((x < window.innerWidth * (1/3)) || (x < window.innerWidth * (2/3))) {
+            if(ap[inc] == "zeroDeg") { photon = zeroDeg; }
+            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; }
+            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; }
+            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; }
+        }
+     
     }
-
     image(photon, x, window.innerHeight * (1/3), 96, 96)
     
     image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
-    image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96);
+    if(eveIntercept) { image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96); }
 
     x += xSpeed;
 
@@ -526,7 +518,7 @@ function draw() {
 
     image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 128);
     image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3) - 40, 128, 128);
-    image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128);
+    if(eveIntercept) { image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128); }
 
     if(inc >= keySize) { location.reload() }
 
