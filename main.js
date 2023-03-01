@@ -383,14 +383,9 @@ class BB84 {
     }
 }
 
-function sleep(miliseconds) {
-    var currentTime = new Date().getTime();
-    console.log("reee");
-    while (currentTime + miliseconds >= new Date().getTime()) {
-    }
- }
-
-const keySize = 256;
+let keySize;
+let xSpeed;
+let eveIntercept = true;
 let am = new AnimManager();
 
 let ap;
@@ -399,10 +394,22 @@ let ab;
 let ae;
 
 
-
 function main() {
+
+    let settings = confirm("Would you like to enter settings?.\n\nOk = Yes\nCancel = No");
+
+    if(settings) {
+        keySize = parseInt(prompt("Please enter Key size. (128 Default)"));
+        xSpeed = parseInt(prompt("Please enter photon speed. (1 Default)"));
+        eveIntercept = confirm("Please select if Eve is present.\n\nOk = Yes\nCancel = No");
+        if(!eveIntercept) { eveIntercept = false; }
+    }
+
+    if(!keySize) { keySize = 128; }
+    if(!xSpeed) { xSpeed = 1; }
+
     let b = new BB84();
-    b.runProtocol(keySize, true);
+    b.runProtocol(keySize, eveIntercept);
     b.simResults();
 
 
@@ -509,7 +516,7 @@ function draw() {
     image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
     image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96);
 
-    x += 1;
+    x += xSpeed;
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
