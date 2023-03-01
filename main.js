@@ -383,6 +383,13 @@ class BB84 {
     }
 }
 
+function sleep(miliseconds) {
+    var currentTime = new Date().getTime();
+    console.log("reee");
+    while (currentTime + miliseconds >= new Date().getTime()) {
+    }
+ }
+
 const keySize = 256;
 let am = new AnimManager();
 
@@ -404,14 +411,6 @@ function main() {
 
     ab = am.getBobMeasure();
     ae = am.getEveMeasure();
-
-
-    //am.printAlicePhotons();
-    //console.log("\n");
-    //am.printEvePhotons();
-//
-    //am.printBEMeasure();
-
     
 }
 
@@ -505,18 +504,12 @@ function draw() {
         }
     }
 
-    if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {        
-        console.log("Alice = " + ap[inc]);
-        console.log("Eve = " + ep[inc]);
-    }
-
-    image(photon, x, window.innerHeight * (1/3), 32, 32)
-
+    image(photon, x, window.innerHeight * (1/3), 96, 96)
     
-    image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3));
-    image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3));
+    image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
+    image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96);
 
-    x += 2;
+    x += 1;
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
@@ -524,9 +517,9 @@ function draw() {
         inc++;
     }
 
-    image(alice, window.innerWidth * (1/3) - 32, window.innerHeight * (1/3));
-    image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3));
-    image(eve, window.innerWidth * (1/2), window.innerHeight * (1/3) - 40);
+    image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 128);
+    image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3) - 40, 128, 128);
+    image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128);
 
     if(inc >= keySize) { location.reload() }
 
