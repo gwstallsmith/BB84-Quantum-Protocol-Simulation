@@ -178,8 +178,10 @@ class Alice {
         return this.botp_;
     }
 
+    getOTP() { return this.otp_; }
+
     // Utility print functions for debugging.
-    printOTP() { for(let i = 0; i < this.otp_.length; i++) { console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_.getPolar()); } }
+    printOTP() { for(let i = 0; i < this.otp_.length; i++) { console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_[i].getPolar()); } }
     printBOTP() { for(let i = 0; i < this.botp_.length; i++) { console.log(i + ".) " + this.botp_[i]); } }
 }
 
@@ -251,9 +253,10 @@ class Bob {
         return this.otp_;
     }
 
+    getOTP() { return this.otp_; }
+
     // Utility print functions for debugging.
-    printOTP() { for(let i = 0; i < this.otp_.length; i++) { console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_.getPolar()); } }
-    printBOTP() { for(let i = 0; i < this.botp_.length; i++) { console.log(i + ".) " + this.botp_[i]); } }
+    printOTP() { for(let i = 0; i < this.otp_.length; i++) { console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_[i].getPolar()); } }
 }
 
 // In BB84 Eve is the intercepter (eavesdropper -> Eve).
@@ -333,9 +336,10 @@ class Eve {
         return this.otp_
     }
 
+    getOTP() { return this.otp_; }
+
     // Utility print functions for debugging.
-    printOTP() { for(let i = 0; i < this.otp_.length; i++) { console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_.getPolar()); } }
-    printBOTP() { for(let i = 0; i < this.botp_.length; i++) { console.log(i + ".) " + this.botp_[i]); } }
+    printOTP() { for(let i = 0; i < this.otp_.length; i++) { console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_[i].getPolar()); } }
 }
 
 // This is a class to manage the BB84 protocol.
@@ -352,6 +356,10 @@ class BB84 {
         this.eveIntercept_ = false;
         this.eveDetect_ = false;
     }
+
+    getAlice() { return this.a_; }
+    getBob() { return this.b_; }
+    getEve() { return this.e_; }
 
     // To run the protocol we need to know the size of the key and if Eve will be intercepting photons.
     runProtocol(keySize, eveIntercept) {
@@ -386,6 +394,8 @@ class BB84 {
 let keySize;
 let xSpeed;
 let eveIntercept = true;
+
+let b = new BB84();
 let am = new AnimManager();
 
 let ap;
@@ -408,7 +418,6 @@ function main() {
     if(!keySize) { keySize = 128; }
     if(!xSpeed) { xSpeed = 1; }
 
-    let b = new BB84();
     b.runProtocol(keySize, eveIntercept);
     b.simResults();
 
@@ -418,6 +427,8 @@ function main() {
 
     ab = am.getBobMeasure();
     ae = am.getEveMeasure();
+
+    b.getBob().printOTP();
     
 }
 
@@ -433,16 +444,17 @@ let fortyfiveDeg;
 let ninetyDeg;
 let hundredthirtyfiveDeg;
 
-let winBackground;
-
 let x = window.innerWidth * (1/3);
 
 let photon;
 
 let inc = 0;
+let shiftDown = 0;
 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
+    textSize(16);
+    fill(255, 255, 255);
 }
 
 function preload() {
@@ -460,13 +472,12 @@ function preload() {
     ninetyDeg = loadImage('0+90.png');
     hundredthirtyfiveDeg = loadImage('1x135.png');
 
-    winBackground = loadImage('background.png');
 
     image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32);
 }
 
 function draw() {
-    background(winBackground);
+    background(100, 100, 200);
 
     if(ab[inc] == "+") { bobBasis = plusMeasure; }
     else if(ab[inc] == "x") { bobBasis = xMeasure; }
@@ -500,16 +511,31 @@ function draw() {
     
     image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
     
-    if(eveIntercept) { image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96); }
+    if(eveIntercept) {
+        image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96);
+    }
 
     x += xSpeed;
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
         inc++;
+        if(inc % 8 == 0) shiftDown++;
+    }
+
+    text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 160);
+    text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 224 + (shiftDown * 32));
+    text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192 + (shiftDown * 32));
+
+
+    for(let i = 1; i < inc + 1; i++) {
+        text(b.getAlice().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 160 + (shiftDown * 32));
+        text(b.getBob().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 224 + (shiftDown * 32));
+        text(b.getEve().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 192 + (shiftDown * 32));
     }
 
     image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 128);
+
     image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3) - 40, 128, 128);
     if(eveIntercept) { image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128); }
 
