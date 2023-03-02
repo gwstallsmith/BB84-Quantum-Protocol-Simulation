@@ -439,7 +439,7 @@ let x = window.innerWidth * (1/3);
 
 let photon;
 
-let inc;
+let inc = 0;
 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
@@ -453,9 +453,7 @@ function preload() {
     plusMeasure = loadImage('+measure.png');
     xMeasure = loadImage('xmeasure.png');
 
-    bobBasis = plusMeasure;
-    eveBasis = xMeasure;
-
+    photon = zeroDeg;
 
     zeroDeg = loadImage('1+0.png');
     fortyfiveDeg = loadImage('0x45.png');
@@ -464,12 +462,7 @@ function preload() {
 
     winBackground = loadImage('background.png');
 
-    inc = 0;
-
-    photon = zeroDeg;
-    image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32)
-    
-
+    image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32);
 }
 
 function draw() {
@@ -501,18 +494,18 @@ function draw() {
             else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; }
             else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; }
         }
-     
     }
+
     image(photon, x, window.innerHeight * (1/3), 96, 96)
     
     image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
+    
     if(eveIntercept) { image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96); }
 
     x += xSpeed;
 
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
-
         inc++;
     }
 
