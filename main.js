@@ -524,14 +524,14 @@ function draw() {
     }
 
     text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 160);
-    text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 224 + (shiftDown * 32));
-    text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192 + (shiftDown * 32));
+    text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 224);
+    text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192);
 
 
     for(let i = 1; i < inc + 1; i++) {
-        text(b.getAlice().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 160 + (shiftDown * 32));
-        text(b.getBob().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 224 + (shiftDown * 32));
-        text(b.getEve().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 192 + (shiftDown * 32));
+        text(b.getAlice().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 160);
+        text(b.getBob().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 224);
+        text(b.getEve().getOTP()[i - 1].getBit(), window.innerWidth * (1/3) - 24 + 16 * i, window.innerHeight * (1/3) + 192);
     }
 
     image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 128);
