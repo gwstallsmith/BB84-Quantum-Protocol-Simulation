@@ -394,6 +394,7 @@ class BB84 {
 let keySize;
 let xSpeed;
 let eveIntercept = true;
+let reload = false;
 
 let b = new BB84();
 let am = new AnimManager();
@@ -413,6 +414,9 @@ function main() {
         xSpeed = parseInt(prompt("Please enter photon speed.\n(1 Default)"));
         eveIntercept = confirm("Please select if Eve is present.\n\nOk = Yes\nCancel = No");
         if(!eveIntercept) { eveIntercept = false; }
+        reload = confirm("Reload page on animation end?\n\nOk = Yes\nCancel = No");
+        if(!reload) { reload = false }
+
     }
 
     if(!keySize) { keySize = 128; }
@@ -447,7 +451,7 @@ let x = window.innerWidth * (1/3);
 let photon;
 
 let inc = 0;
-let shiftDown = 0;
+//let shiftDown = 0;
 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
@@ -474,9 +478,35 @@ function preload() {
     image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32);
 }
 
-function draw() {
-    background(100, 100, 200);
+function drawOTP(inc) {
+    let shiftDown = 0;
+    text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 160);
 
+    for(let i = 0; i < inc; i++) {
+        text(b.getAlice().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 160 + 16 * shiftDown);
+        if(i % 32 == 31) shiftDown++;
+    }
+
+    text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192 + 16 * shiftDown);
+    for(let i = 0; i < inc; i++) {
+        text(b.getEve().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 192 + 16 * shiftDown);
+        if(i % 32 == 31) shiftDown++;
+    }
+
+    text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 224 + 16 * shiftDown);
+    for(let i = 0; i < inc; i++) {
+        text(b.getBob().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 224 + 16 * shiftDown);
+        if(i % 32 == 31) shiftDown++;
+    }
+}
+
+function drawABE(eveIntercept) {
+    image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 128);
+    image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3) - 40, 128, 128);
+    if(eveIntercept) { image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128); }
+}
+
+function drawPhotonBasis(ap, ep, ab, ae) {
     if(ab[inc] == "+") { bobBasis = plusMeasure; }
     else if(ab[inc] == "x") { bobBasis = xMeasure; }
 
@@ -504,55 +534,30 @@ function draw() {
             else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; }
         }
     }
+}
 
-    image(photon, x, window.innerHeight * (1/3), 96, 96)
-    
-    image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
-    
-    if(eveIntercept) {
-        image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96);
+function draw() {
+    if(inc < keySize) {
+        background(100, 100, 200);
+
+        drawPhotonBasis(ap, ep, ab, ae);
+
+        image(photon, x, window.innerHeight * (1/3), 96, 96)
+        
+        image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
+        
+        if(eveIntercept) { image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96); }
+
+        x += xSpeed;
+
+        if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
+            x =  window.innerWidth * (1/3);
+            inc++;
+        }
+
+        drawOTP(inc);
+        drawABE(eveIntercept);
     }
 
-    x += xSpeed;
-
-    if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
-        x =  window.innerWidth * (1/3);
-        inc++;
-    }
-
-    //text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 160);
-    //text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 224);
-    //text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192);
-
-    shiftDown = 0;
-    text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 160);
-
-    for(let i = 0; i < inc; i++) {
-        text(b.getAlice().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 160 + 16 * shiftDown);
-        if(i % 32 == 31) shiftDown++;
-    }
-
-    text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192 + 16 * shiftDown);
-    for(let i = 0; i < inc; i++) {
-        text(b.getEve().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 192 + 16 * shiftDown);
-        if(i % 32 == 31) shiftDown++;
-    }
-
-    text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 224 + 16 * shiftDown);
-    for(let i = 0; i < inc; i++) {
-        text(b.getBob().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 224 + 16 * shiftDown);
-        if(i % 32 == 31) shiftDown++;
-    }
-
-
-
-
-
-    image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 128);
-
-    image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3) - 40, 128, 128);
-    if(eveIntercept) { image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128); }
-
-    if(inc >= keySize) { location.reload() }
-
+    if(inc >= keySize && reload == true) { location.reload() }
 }
