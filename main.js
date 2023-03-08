@@ -406,21 +406,20 @@ let ae;
 
 
 function main() {
-
     let settings = confirm("Would you like to enter settings?.\n\nOk = Yes\nCancel = No");
 
     if(settings) {
         keySize = parseInt(prompt("Please enter Key size.\n(128 Default)"));
         xSpeed = parseInt(prompt("Please enter photon speed.\n(1 Default)"));
         eveIntercept = confirm("Please select if Eve is present.\n\nOk = Yes\nCancel = No");
-        if(!eveIntercept) { eveIntercept = false; }
         reload = confirm("Reload page on animation end?\n\nOk = Yes\nCancel = No");
-        if(!reload) { reload = false }
-
     }
 
     if(!keySize) { keySize = 128; }
     if(!xSpeed) { xSpeed = 1; }
+    if(!eveIntercept) { eveIntercept = false; }
+    if(!reload) { reload = true; }
+
 
     b.runProtocol(keySize, eveIntercept);
     b.simResults();
@@ -475,6 +474,36 @@ function preload() {
 
 
     image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32);
+}
+
+function draw() {
+    if(inc < keySize) {
+        background(100, 100, 200);
+
+        drawPhotonBasis(ap, ep, ab, ae);
+
+        image(photon, x, window.innerHeight * (1/3), 96, 96)
+        
+        image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
+        
+        if(eveIntercept) { image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96); }
+
+        x += xSpeed;
+
+        if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
+            x =  window.innerWidth * (1/3);
+            inc++;
+        }
+
+        drawOTP(inc);
+
+        drawEveDetect(drawErrorRate(inc));
+
+        drawNames();
+        drawABE(eveIntercept);
+    }
+
+    if(inc >= keySize && reload == true) { location.reload() }
 }
 
 function drawOTP(inc) {
@@ -564,35 +593,4 @@ function drawErrorRate(inc) {
 function drawEveDetect(errorRate) {
     if(errorRate > 70) { text('Eve Detect: True', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
     else { text('Eve Detect: False', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
-}
-
-
-function draw() {
-    if(inc < keySize) {
-        background(100, 100, 200);
-
-        drawPhotonBasis(ap, ep, ab, ae);
-
-        image(photon, x, window.innerHeight * (1/3), 96, 96)
-        
-        image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
-        
-        if(eveIntercept) { image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96); }
-
-        x += xSpeed;
-
-        if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
-            x =  window.innerWidth * (1/3);
-            inc++;
-        }
-
-        drawOTP(inc);
-
-        drawEveDetect(drawErrorRate(inc));
-
-        drawNames();
-        drawABE(eveIntercept);
-    }
-
-    if(inc >= keySize && reload == true) { location.reload() }
 }
