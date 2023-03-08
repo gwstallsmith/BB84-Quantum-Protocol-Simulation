@@ -384,7 +384,7 @@ class BB84 {
 
     // Utility print function.
     simResults() {
-        console.log("Sim #1");
+        console.log("Sim:");
         console.log("Error Rate: " + this.errorRate_ + "%");
         console.log("Eve Intercept: " + this.eveIntercept_);
         console.log("Eve Detection: " + this.eveDetect_ + "\n" + "\n");
@@ -451,7 +451,6 @@ let x = window.innerWidth * (1/3);
 let photon;
 
 let inc = 0;
-//let shiftDown = 0;
 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
@@ -486,11 +485,12 @@ function drawOTP(inc) {
         text(b.getAlice().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 160 + 16 * shiftDown);
         if(i % 32 == 31) shiftDown++;
     }
-
-    text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192 + 16 * shiftDown);
-    for(let i = 0; i < inc; i++) {
-        text(b.getEve().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 192 + 16 * shiftDown);
-        if(i % 32 == 31) shiftDown++;
+    if(eveIntercept) {
+        text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192 + 16 * shiftDown);
+        for(let i = 0; i < inc; i++) {
+            text(b.getEve().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 192 + 16 * shiftDown);
+            if(i % 32 == 31) shiftDown++;
+        }
     }
 
     text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 224 + 16 * shiftDown);
@@ -536,6 +536,30 @@ function drawPhotonBasis(ap, ep, ab, ae) {
     }
 }
 
+function drawNames() {
+    text('Alice', window.innerWidth * (1/3) - 56, window.innerHeight * (1/3) - 40);
+    text('Bob',  window.innerWidth * (2/3) + 76, window.innerHeight * (1/3) - 40);
+    if(eveIntercept) { text('Eve', window.innerWidth * (1/2) + 36, window.innerHeight * (1/3) - 152); }
+}
+
+function drawErrorRate(inc) {
+    let correctPhoton = 0;
+    let errorRate = 0;
+    for(let i = 0; i < inc; i++) {
+        if(b.getBob().getOTP()[i].getBit() != 'U') {
+            if((b.getAlice().getOTP()[i].getBit() == b.getBob().getOTP()[i].getBit()
+            && b.getAlice().getOTP()[i].getBasis() == b.getBob().getOTP()[i].getBasis()
+            && b.getAlice().getOTP()[i].getPolar() == b.getBob().getOTP()[i].getPolar()))
+            { correctPhoton++; }
+        }
+    }
+
+    errorRate = Math.ceil((1 - correctPhoton / inc) * 100);
+
+    text('Error Rate: ' + errorRate + '%', window.innerWidth * (1/8), window.innerHeight * (1/8));
+
+}
+
 function draw() {
     if(inc < keySize) {
         background(100, 100, 200);
@@ -556,6 +580,9 @@ function draw() {
         }
 
         drawOTP(inc);
+        drawErrorRate(inc);
+
+        drawNames();
         drawABE(eveIntercept);
     }
 
