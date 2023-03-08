@@ -535,7 +535,7 @@ function drawOTP(inc) {
 
 // Function to draw Alice, Bob, Eve static sprites.
 function drawABE(eveIntercept) {
-    image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 128);
+    image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 160);
     image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3) - 40, 128, 128);
     if(eveIntercept) { image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128); }
 }
