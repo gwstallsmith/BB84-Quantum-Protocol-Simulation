@@ -558,7 +558,14 @@ function drawErrorRate(inc) {
 
     text('Error Rate: ' + errorRate + '%', window.innerWidth * (1/8), window.innerHeight * (1/8));
 
+    return errorRate;
 }
+
+function drawEveDetect(errorRate) {
+    if(errorRate > 70) { text('Eve Detect: True', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
+    else { text('Eve Detect: False', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
+}
+
 
 function draw() {
     if(inc < keySize) {
@@ -580,7 +587,8 @@ function draw() {
         }
 
         drawOTP(inc);
-        drawErrorRate(inc);
+
+        drawEveDetect(drawErrorRate(inc));
 
         drawNames();
         drawABE(eveIntercept);
