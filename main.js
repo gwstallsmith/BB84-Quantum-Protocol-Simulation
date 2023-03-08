@@ -404,7 +404,7 @@ let ep;
 let ab;
 let ae;
 
-
+// Function to actually run the simulation in order to get data for the animation.
 function main() {
     let settings = confirm("Would you like to enter settings?.\n\nOk = Yes\nCancel = No");
 
@@ -451,12 +451,14 @@ let photon;
 
 let inc = 0;
 
+// P5 function.
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
     textSize(16);
     fill(255, 255, 255);
 }
 
+// P5 function.
 function preload() {
     alice = loadImage('alice.png');
     bob = loadImage('bob.png');
@@ -476,6 +478,7 @@ function preload() {
     image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32);
 }
 
+// P5 function that drives the entire animation.
 function draw() {
     if(inc < keySize) {
         background(100, 100, 200);
@@ -506,6 +509,7 @@ function draw() {
     if(inc >= keySize && reload == true) { location.reload() }
 }
 
+// Function to draw the one time pad dynamically as animation plays.
 function drawOTP(inc) {
     let shiftDown = 0;
     text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 160);
@@ -529,12 +533,14 @@ function drawOTP(inc) {
     }
 }
 
+// Function to draw Alice, Bob, Eve static sprites.
 function drawABE(eveIntercept) {
     image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 128);
     image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3) - 40, 128, 128);
     if(eveIntercept) { image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128); }
 }
 
+// Function to dynamically draw the basis for Eve and Bob to measure the photon.
 function drawPhotonBasis(ap, ep, ab, ae) {
     if(ab[inc] == "+") { bobBasis = plusMeasure; }
     else if(ab[inc] == "x") { bobBasis = xMeasure; }
@@ -565,12 +571,14 @@ function drawPhotonBasis(ap, ep, ab, ae) {
     }
 }
 
+// Function to draw Alice, Bob, Eve static names.
 function drawNames() {
     text('Alice', window.innerWidth * (1/3) - 56, window.innerHeight * (1/3) - 40);
     text('Bob',  window.innerWidth * (2/3) + 76, window.innerHeight * (1/3) - 40);
     if(eveIntercept) { text('Eve', window.innerWidth * (1/2) + 36, window.innerHeight * (1/3) - 152); }
 }
 
+// Function to dynamically draw error rate during animation.
 function drawErrorRate(inc) {
     let correctPhoton = 0;
     let errorRate = 0;
@@ -590,6 +598,8 @@ function drawErrorRate(inc) {
     return errorRate;
 }
 
+// Function to dynamically draw whether Eve is detected during animation.
+// If errrorRate > 70% then Eve is detected.
 function drawEveDetect(errorRate) {
     if(errorRate > 70) { text('Eve Detect: True', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
     else { text('Eve Detect: False', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
