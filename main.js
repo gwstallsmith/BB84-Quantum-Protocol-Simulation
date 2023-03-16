@@ -456,6 +456,15 @@ function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
     textSize(16);
     fill(255, 255, 255);
+
+    button = createButton('More Info');
+    button.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
+    button.mousePressed(openResearch);
+
+}
+
+function openResearch() {
+    window.open("Quantum Cryptography.pdf");
 }
 
 // P5 function.
@@ -504,6 +513,7 @@ function draw() {
 
         drawNames();
         drawABE(eveIntercept);
+
     }
 
     if(inc >= keySize && reload == true) { location.reload() }
@@ -597,6 +607,7 @@ function drawErrorRate(inc) {
 
     return errorRate;
 }
+
 
 // Function to dynamically draw whether Eve is detected during animation.
 // If errrorRate > 70% then Eve is detected.
