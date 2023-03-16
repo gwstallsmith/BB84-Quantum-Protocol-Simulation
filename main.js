@@ -513,7 +513,7 @@ function draw() {
 
         drawNames();
         drawABE(eveIntercept);
-
+        drawCredits();
     }
 
     if(inc >= keySize && reload == true) { location.reload() }
@@ -614,4 +614,8 @@ function drawErrorRate(inc) {
 function drawEveDetect(errorRate) {
     if(errorRate > 70) { text('Eve Detect: True', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
     else { text('Eve Detect: False', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
+}
+
+function drawCredits() {
+    text('Made by Garrett Stallsmith,\nin conjunction with John Sipahioglu\n\nResearch by Dr. Younghoun Chae\n\nKent State COF-CS', window.innerWidth * (3/4), window.innerHeight * (3/4));
 }
