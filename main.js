@@ -617,5 +617,5 @@ function drawEveDetect(errorRate) {
 }
 
 function drawCredits() {
-    text('Made by Garrett Stallsmith,\nin conjunction with John Sipahioglu\n\nResearch by Dr. Younghoun Chae\n\nKent State COF-CS', window.innerWidth * (3/4), window.innerHeight * (3/4));
+    text('Made by Garrett Stallsmith,\nin conjunction with John Sipahioglu\n\nResearch by Dr. Younghoun Chae\n\nKent State COF-CS 2023', window.innerWidth * (3/4), window.innerHeight * (3/4));
 }
