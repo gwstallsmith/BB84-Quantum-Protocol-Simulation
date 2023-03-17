@@ -433,6 +433,8 @@ function main() {
     
 }
 
+
+
 let alice;
 let bob;
 let eve;
@@ -451,15 +453,23 @@ let photon;
 
 let inc = 0;
 
+
+function settingsReload() { location.reload(); }
+
 // P5 function.
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
     textSize(16);
     fill(255, 255, 255);
 
-    button = createButton('More Info');
-    button.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
-    button.mousePressed(openResearch);
+
+    settingsButton = createButton('Settings');
+    settingsButton.position(window.innerWidth * (7/8), window.innerHeight * (1/8))
+    settingsButton.mousePressed(settingsReload);
+
+    infoButton = createButton('More Info');
+    infoButton.position(window.innerWidth * (7/8), window.innerHeight * (5/32));
+    infoButton.mousePressed(openResearch);
 
 }
 
