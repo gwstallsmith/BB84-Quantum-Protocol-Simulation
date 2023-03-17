@@ -391,6 +391,12 @@ class BB84 {
     }
 }
 
+//
+//
+// Animation Logic Below
+//
+//
+
 let keySize;
 let xSpeed;
 let eveIntercept = true;
