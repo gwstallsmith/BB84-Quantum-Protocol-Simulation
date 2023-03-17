@@ -439,8 +439,6 @@ function main() {
     
 }
 
-
-
 let alice;
 let bob;
 let eve;
@@ -459,9 +457,6 @@ let photon;
 
 let inc = 0;
 
-
-function settingsReload() { location.reload(); }
-
 // P5 function.
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
@@ -479,6 +474,12 @@ function setup() {
 
 }
 
+// Reloads page when "Settings" button is clicked
+function settingsReload() {
+    location.reload();
+}
+
+// Opens up paper this sim is based on when "More Info" button is clicked
 function openResearch() {
     window.open("Quantum Cryptography.pdf");
 }
@@ -632,6 +633,7 @@ function drawEveDetect(errorRate) {
     else { text('Eve Detect: False', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
 }
 
+// Function to draw the names of those responsible for this site.
 function drawCredits() {
     text('Made by Garrett Stallsmith,\nin conjunction with John Sipahioglu\n\nResearch by Dr. Younghoun Chae\n\nKent State COF-CS 2023', window.innerWidth * (3/4), window.innerHeight * (3/4));
 }
