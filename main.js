@@ -517,6 +517,7 @@ function draw() {
         image(photon, x, window.innerHeight * (1/3), 96, 96);
 
         text(photonDesc, x, window.innerHeight * (1/3) + 128);
+        console.log(photon.toString());
         
         image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
         
@@ -584,23 +585,23 @@ function drawPhotonBasisText(ap, ep, ab, ae) {
 
     if(eveIntercept) {
         if((x < window.innerWidth * (1/3)) || (x < window.innerWidth * (1/2))) {
-            if(ap[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0"; }
-            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45"; }
-            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90"; }
-            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; photonDesc = "Bit: 1\nBasis: x\nPolarization: 135"; }
+            if(ap[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0°"; }
+            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45°"; }
+            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90°"; }
+            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; photonDesc = "Bit: 1\nBasis: x\nPolarization: 135°"; }
         }
         if((x >= window.innerWidth * (1/2)) || (x > window.innerWidth * (2/3))) {
-            if(ep[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0"; }
-            else if(ep[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45"; }
-            else if(ep[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90"; }
-            else if(ep[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; "Bit: 1\nBasis: x\nPolarization: 135"; }
+            if(ep[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0°"; }
+            else if(ep[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45°"; }
+            else if(ep[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90°"; }
+            else if(ep[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; photonDesc = "Bit: 1\nBasis: x\nPolarization: 135°"; }
         }
     } else {
         if((x < window.innerWidth * (1/3)) || (x < window.innerWidth * (2/3))) {
-            if(ap[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0"; }
-            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45"; }
-            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90"; }
-            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; photonDesc = "Bit: 1\nBasis: x\nPolarization: 135"; }
+            if(ap[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0°"; }
+            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45°"; }
+            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90°"; }
+            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; photonDesc = "Bit: 1\nBasis: x\nPolarization: 135°"; }
         }
     }
     return photonDesc;
