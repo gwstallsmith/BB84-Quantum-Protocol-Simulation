@@ -517,7 +517,6 @@ function draw() {
         image(photon, x, window.innerHeight * (1/3), 96, 96);
 
         text(photonDesc, x, window.innerHeight * (1/3) + 128);
-        console.log(photon.toString());
         
         image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
         
