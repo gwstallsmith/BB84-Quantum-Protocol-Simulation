@@ -391,6 +391,12 @@ class BB84 {
     }
 }
 
+//
+//
+// Animation Logic Below
+//
+//
+
 let keySize;
 let xSpeed;
 let eveIntercept = true;
@@ -458,19 +464,21 @@ function setup() {
     textSize(16);
     fill(255, 255, 255);
 
-    settingsButton = createButton('Settings');
-    settingsButton.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
-    settingsButton.mousePressed(openSettings);
-
-    infoButton = createButton('More Info');
-    infoButton.position(window.innerWidth * (7/8), window.innerHeight * (1/6));
-    infoButton.mousePressed(openResearch);
+    button = createButton('More Info');
+    button.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
+    button.mousePressed(openResearch);
 
 }
 function openSettings() {
     location.reload();
 }
 
+// Reloads page when "Settings" button is clicked
+function settingsReload() {
+    location.reload();
+}
+
+// Opens up paper this sim is based on when "More Info" button is clicked
 function openResearch() {
     window.open("Quantum Cryptography.pdf");
 }
@@ -629,6 +637,7 @@ function drawEveDetect(errorRate) {
     else { text('Eve Detect: False', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
 }
 
+// Function to draw the names of those responsible for this site.
 function drawCredits() {
     text('Made by Garrett Stallsmith,\nin conjunction with John Sipahioglu\n\nResearch by Dr. Younghoun Chae\n\nKent State COF-CS 2023', window.innerWidth * (3/4), window.innerHeight * (3/4));
 }
