@@ -448,6 +448,7 @@ let hundredthirtyfiveDeg;
 let x = window.innerWidth * (1/3);
 
 let photon;
+let photonDesc;
 
 let inc = 0;
 
@@ -457,10 +458,17 @@ function setup() {
     textSize(16);
     fill(255, 255, 255);
 
-    button = createButton('More Info');
-    button.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
-    button.mousePressed(openResearch);
+    settingsButton = createButton('Settings');
+    settingsButton.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
+    settingsButton.mousePressed(openSettings);
 
+    infoButton = createButton('More Info');
+    infoButton.position(window.innerWidth * (7/8), window.innerHeight * (1/6));
+    infoButton.mousePressed(openResearch);
+
+}
+function openSettings() {
+    location.reload();
 }
 
 function openResearch() {
@@ -492,9 +500,11 @@ function draw() {
     if(inc < keySize) {
         background(100, 100, 200);
 
-        drawPhotonBasis(ap, ep, ab, ae);
+        photonDesc = drawPhotonBasisText(ap, ep, ab, ae);
 
-        image(photon, x, window.innerHeight * (1/3), 96, 96)
+        image(photon, x, window.innerHeight * (1/3), 96, 96);
+
+        text(photonDesc, x, window.innerHeight * (1/3) + 128);
         
         image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
         
@@ -522,23 +532,23 @@ function draw() {
 // Function to draw the one time pad dynamically as animation plays.
 function drawOTP(inc) {
     let shiftDown = 0;
-    text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 160);
+    text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 208);
 
     for(let i = 0; i < inc; i++) {
-        text(b.getAlice().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 160 + 16 * shiftDown);
+        text(b.getAlice().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 208 + 16 * shiftDown);
         if(i % 32 == 31) shiftDown++;
     }
     if(eveIntercept) {
-        text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 192 + 16 * shiftDown);
+        text('Eve OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 240 + 16 * shiftDown);
         for(let i = 0; i < inc; i++) {
-            text(b.getEve().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 192 + 16 * shiftDown);
+            text(b.getEve().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 240 + 16 * shiftDown);
             if(i % 32 == 31) shiftDown++;
         }
     }
 
-    text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 224 + 16 * shiftDown);
+    text('Bob OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 272 + 16 * shiftDown);
     for(let i = 0; i < inc; i++) {
-        text(b.getBob().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 224 + 16 * shiftDown);
+        text(b.getBob().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 272 + 16 * shiftDown);
         if(i % 32 == 31) shiftDown++;
     }
 }
@@ -551,7 +561,9 @@ function drawABE(eveIntercept) {
 }
 
 // Function to dynamically draw the basis for Eve and Bob to measure the photon.
-function drawPhotonBasis(ap, ep, ab, ae) {
+function drawPhotonBasisText(ap, ep, ab, ae) {
+    let photonDesc;
+
     if(ab[inc] == "+") { bobBasis = plusMeasure; }
     else if(ab[inc] == "x") { bobBasis = xMeasure; }
 
@@ -560,25 +572,26 @@ function drawPhotonBasis(ap, ep, ab, ae) {
 
     if(eveIntercept) {
         if((x < window.innerWidth * (1/3)) || (x < window.innerWidth * (1/2))) {
-            if(ap[inc] == "zeroDeg") { photon = zeroDeg; }
-            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; }
-            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; }
-            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; }
+            if(ap[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0"; }
+            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45"; }
+            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90"; }
+            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; photonDesc = "Bit: 1\nBasis: x\nPolarization: 135"; }
         }
         if((x >= window.innerWidth * (1/2)) || (x > window.innerWidth * (2/3))) {
-            if(ep[inc] == "zeroDeg") { photon = zeroDeg; }
-            else if(ep[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; }
-            else if(ep[inc] == "ninetyDeg") { photon = ninetyDeg; }
-            else if(ep[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; }
+            if(ep[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0"; }
+            else if(ep[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45"; }
+            else if(ep[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90"; }
+            else if(ep[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; "Bit: 1\nBasis: x\nPolarization: 135"; }
         }
     } else {
         if((x < window.innerWidth * (1/3)) || (x < window.innerWidth * (2/3))) {
-            if(ap[inc] == "zeroDeg") { photon = zeroDeg; }
-            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; }
-            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; }
-            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; }
+            if(ap[inc] == "zeroDeg") { photon = zeroDeg; photonDesc = "Bit: 1\nBasis: +\nPolarization: 0"; }
+            else if(ap[inc] == "fortyfiveDeg") { photon = fortyfiveDeg; photonDesc = "Bit: 0\nBasis: x\nPolarization: 45"; }
+            else if(ap[inc] == "ninetyDeg") { photon = ninetyDeg; photonDesc = "Bit: 0\nBasis: +\nPolarization: 90"; }
+            else if(ap[inc] == "hundredthirtyfiveDeg") { photon = hundredthirtyfiveDeg; photonDesc = "Bit: 1\nBasis: x\nPolarization: 135"; }
         }
     }
+    return photonDesc;
 }
 
 // Function to draw Alice, Bob, Eve static names.
