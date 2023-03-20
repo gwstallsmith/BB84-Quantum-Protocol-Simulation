@@ -464,9 +464,13 @@ function setup() {
     textSize(16);
     fill(255, 255, 255);
 
-    button = createButton('More Info');
-    button.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
-    button.mousePressed(openResearch);
+    settingsButton = createButton('Settings');
+    settingsButton.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
+    settingsButton.mousePressed(openSettings);
+
+    infoButton = createButton('More Info');
+    infoButton.position(window.innerWidth * (7/8), window.innerHeight * (1/6));
+    infoButton.mousePressed(openResearch);
 
 }
 function openSettings() {
