@@ -410,16 +410,10 @@ let ep;
 let ab;
 let ae;
 
+
+
 // Function to actually run the simulation in order to get data for the animation.
 function main() {
-    let settings = confirm("Would you like to enter settings?.\n\nOk = Yes\nCancel = No");
-
-    if(settings) {
-        keySize = parseInt(prompt("Please enter Key size.\n(128 Default)"));
-        xSpeed = parseInt(prompt("Please enter photon speed.\n(1 Default)"));
-        eveIntercept = confirm("Please select if Eve is present.\n\nOk = Yes\nCancel = No");
-        reload = confirm("Reload page on animation end?\n\nOk = Yes\nCancel = No");
-    }
 
     if(!keySize) { keySize = 128; }
     if(!xSpeed) { xSpeed = 1; }
@@ -466,20 +460,31 @@ function setup() {
 
     settingsButton = createButton('Settings');
     settingsButton.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
-    settingsButton.mousePressed(openSettings);
+    settingsButton.mousePressed(settingsPrompt);
 
     infoButton = createButton('More Info');
     infoButton.position(window.innerWidth * (7/8), window.innerHeight * (1/6));
     infoButton.mousePressed(openResearch);
 
+
+
+    // more buttons for different settings instead of a that ass menu
 }
 function openSettings() {
     location.reload();
 }
 
 // Reloads page when "Settings" button is clicked
-function settingsReload() {
-    location.reload();
+let settings;
+function settingsPrompt() {
+    settings = confirm("Would you like to enter settings?.\n\nOk = Yes\nCancel = No");
+    if(settings) {
+        keySize = parseInt(prompt("Please enter Key size.\n(128 Default)"));
+        xSpeed = parseInt(prompt("Please enter photon speed.\n(1 Default)"));
+        eveIntercept = confirm("Please select if Eve is present.\n\nOk = Yes\nCancel = No");
+        reload = confirm("Reload page on animation end?\n\nOk = Yes\nCancel = No");
+    }
+    main();
 }
 
 // Opens up paper this sim is based on when "More Info" button is clicked
@@ -538,7 +543,11 @@ function draw() {
         drawCredits();
     }
 
-    if(inc >= keySize && reload == true) { location.reload() }
+    if(inc >= keySize && reload == true) {
+        location.reload()
+    } else if (inc >= keySize) {
+        main();
+    }
 }
 
 // Function to draw the one time pad dynamically as animation plays.
