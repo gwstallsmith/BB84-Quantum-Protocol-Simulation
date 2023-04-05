@@ -462,7 +462,7 @@ function setup() {
     settingsButton.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
     settingsButton.mousePressed(settingsPrompt);
 
-    infoButton = createButton('More Info');
+    infoButton = createButton('Research');
     infoButton.position(window.innerWidth * (7/8), window.innerHeight * (1/6));
     infoButton.mousePressed(openResearch);
 
