@@ -459,11 +459,11 @@ function setup() {
     fill(255, 255, 255);
 
     settingsButton = createButton('Settings');
-    settingsButton.position(window.innerWidth * (7/8), window.innerHeight * (1/8));
+    settingsButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/8));
     settingsButton.mousePressed(settingsPrompt);
 
     infoButton = createButton('Research');
-    infoButton.position(window.innerWidth * (7/8), window.innerHeight * (1/6));
+    infoButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6));
     infoButton.mousePressed(openResearch);
 
 
@@ -519,8 +519,8 @@ function draw() {
         textSize(32);
         console.log(inc);
 
-        text('More Info Below!', window.innerWidth * (7/16) + 32, window.innerHeight * 7/8);
-        text('\n\t\t\t\t\t\tV', window.innerWidth * (7/16) + 32, window.innerHeight * 7/8 + 3 * Math.cos(3.14 / 32 * x));
+        text('More Info Below!', window.innerWidth * (1/2) - 128, window.innerHeight * 7/8);
+        text('\nV', window.innerWidth * (1/2) - 16, window.innerHeight * 7/8 + 3 * Math.cos(3.14 / 32 * x));
 
         textSize(16);
 
@@ -529,10 +529,14 @@ function draw() {
         image(photon, x, window.innerHeight * (1/3), 96, 96);
 
         text(photonDesc, x, window.innerHeight * (1/3) + 128);
+
         
-        image(bobBasis, window.innerWidth * (7/12), window.innerHeight * (1/3), 96, 96);
-        
-        if(eveIntercept) { image(eveBasis, window.innerWidth * (1/2), window.innerHeight * (1/3), 96, 96); }
+        image(bobBasis, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
+        text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
+        if(eveIntercept) {
+            image(eveBasis, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
+            text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
+        }
 
         x += xSpeed;
 
@@ -545,7 +549,6 @@ function draw() {
 
         drawEveDetect(drawErrorRate(inc));
 
-        drawNames();
         drawABE(eveIntercept);
         drawCredits();
     }
@@ -583,9 +586,18 @@ function drawOTP(inc) {
 
 // Function to draw Alice, Bob, Eve static sprites.
 function drawABE(eveIntercept) {
-    image(alice, window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) - 32, 128, 160);
-    image(bob, window.innerWidth * (2/3) + 32, window.innerHeight * (1/3) - 40, 128, 128);
-    if(eveIntercept) { image(eve, window.innerWidth * (1/2) + 16, window.innerHeight * (1/3) - 144, 64, 128); }
+    image(alice, window.innerWidth * (1/3) - 144, window.innerHeight * (1/3) - 32, 128, 160);
+    text('Alice', window.innerWidth * (1/3) - 104, window.innerHeight * (1/3) - 40);
+
+    image(bob, window.innerWidth * (2/3) - 16, window.innerHeight * (1/3) - 40, 128, 128);
+    text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
+
+    if(eveIntercept) {
+        image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
+        text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+    }
+
+
 }
 
 // Function to dynamically draw the basis for Eve and Bob to measure the photon.
@@ -620,13 +632,6 @@ function drawPhotonBasisText(ap, ep, ab, ae) {
         }
     }
     return photonDesc;
-}
-
-// Function to draw Alice, Bob, Eve static names.
-function drawNames() {
-    text('Alice', window.innerWidth * (1/3) - 56, window.innerHeight * (1/3) - 40);
-    text('Bob',  window.innerWidth * (2/3) + 76, window.innerHeight * (1/3) - 40);
-    if(eveIntercept) { text('Eve', window.innerWidth * (1/2) + 36, window.innerHeight * (1/3) - 152); }
 }
 
 // Function to dynamically draw error rate during animation.

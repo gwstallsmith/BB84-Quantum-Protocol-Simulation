@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, intial-scale=1.0">
+
   <title>BB84 Quantum Protocol - COF 2023</title>
+
+  <link rel="icon" type="image/png" href="1+0.png">
 
   <!-- p5.js -->
   <script src="addons/p5.min.js"></script>
@@ -42,7 +45,8 @@
 
 <body style="background-color:rgb(110,110,210);color:white;text-align:center;text-justify:auto;overflow-x:hidden;">
   <p style="background-color:rgb(100,100,200);font-size:24px;">
-    <b style="font-size:64px;">How it works</b><br><br><br>
+
+    <br><b style="font-size:64px;">How it works</b><br><br><br>
 
     <b>BB84 is a Quantum Key Distribution (QKD) Protocol.</b><br>
     It was created in 1984 by Charles Bennet and Gilles Brassard.<br>
@@ -111,5 +115,52 @@
 
     <br>  
   </p>
+  <p style="background-color:rgb(100,100,200);font-size:24px;">
+
+    <br><b style="font-size:64px;">Animation Key</b><br><br><br>
+
+    <b style="font-size:32px">People</b><br><br>
+    <img src="alice.png" style="width:128px;height:160px;">&emsp;
+    <img src="bob.png" style="width:128px;height:128px;">&emsp;&emsp;&ensp;
+    <img src="eve.png" style="width:64px;height:128px;"><br>
+    Alice&emsp;&emsp;&emsp;&emsp;&emsp;
+    Bob&emsp;&emsp;&emsp;&emsp;&emsp;
+    Eve<br><br>
+
+
+    <b style="font-size:32px">Photons</b><br><br>
+    <img src="1+0.png">&emsp;
+    <img src="0x45.png">&emsp;
+    <img src="0+90.png">&emsp;
+    <img src="1x135.png"><br>
+    (+, 0°, 1)&emsp;&ensp;
+    (x, 45°, 0)&emsp;
+    (x, 90°, 0)&emsp;
+    (+, 135°, 1)<br><br>
+
+    <b style="font-size:32px">Basis</b><br><br>
+    <img src="+measure.png">
+    <img src="xmeasure.png"><br>
+    + basis&emsp;&ensp;x basis<br><br><br>
+  </p>
+
+  <p style="background-color:rgb(100,100,200);font-size:24px;">
+    <br><b style="font-size:64px;text-align:center;">Vocabulary</b><br><br><br>
+    <b style="font-size:28px">Basis:</b> Alignment of photon. Either + for 0° / 90° or x for 45° / 135°.<br><br>
+    <b style="font-size:28px">Polarization:</b> Degree measure of photon within basis. Determines bit value.<br><br>
+    <b style="font-size:28px">Bit:</b> 1 or 0. Each basis has two polarizations, one for 1 bit value the other for 0 bit value.<br><br><br>
+
+    <b style="font-size:28px">Alice:</b> Original sender of qubits. Initiates transmission, and compares sent key with Bob's received key.<br><br>
+    <b style="font-size:28px">Bob:</b> Inteded receiver of qubits. Measures qubits and stores bit values. Compares recieved key with Alice's sent key.<br><br>
+    <b style="font-size:28px">Eve:</b> Eavesdropper, or intercepter of qubits. Measures qubits Alice sends and retransmits qubits to Bob.<br><br><br>
+
+
+    <b style="font-size:28px">OTP / Key:</b> One Time Pad (OTP) and Key are synonyms. These are used as keys in classical encryption algorithms.<br><br>
+    <b style="font-size:28px">No-Cloning Theorem:</b> No-Cloning Theorem states a qubit cannot be observed in the incorrect basis and be resent as an exact copy.<br><br>
+    <b style="font-size:28px">Error Rate:</b> Percent of qubits that Bob measures incorrectly.<br><br>
+
+
+  </p>
+
 </body>
 </html>
