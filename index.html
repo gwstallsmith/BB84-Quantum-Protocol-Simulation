@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, intial-scale=1.0">
@@ -12,15 +11,36 @@
   <!-- Sim and Animation -->
   <script src="main.js"></script>
 
-
-  
 </head>
 
 <body onload="main()">
   <main>
   </main>
 </body>
-<body style="background-color:rgb(110,110,210);color:white; text-align:center;text-justify:auto;">
+
+<style>
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+    border-color: white;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px white;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(100,100,200);
+    border-radius: 10px;
+    border-color: white;
+
+  }  
+</style>  
+
+<body style="background-color:rgb(110,110,210);color:white;text-align:center;text-justify:auto;overflow-x:hidden;">
   <h1 style="background-color:rgb(100,100,200);font-size:64px;">
     <b>How it works</b>
   </h1>
@@ -93,5 +113,4 @@
     <br>  
   </p>
 </body>
-
 </html>

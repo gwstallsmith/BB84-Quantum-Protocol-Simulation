@@ -454,7 +454,7 @@ let inc = 0;
 
 // P5 function.
 function setup() {
-    createCanvas(window.innerWidth, window.innerHeight);
+    createCanvas(window.innerWidth * (63/64), window.innerHeight * (63/64));
     textSize(16);
     fill(255, 255, 255);
 
@@ -516,6 +516,13 @@ function preload() {
 function draw() {
     if(inc < keySize) {
         background(100, 100, 200);
+        textSize(32);
+        console.log(inc);
+
+        text('More Info Below!', window.innerWidth * (7/16) + 32, window.innerHeight * 7/8);
+        text('\n\t\t\t\t\t\tV', window.innerWidth * (7/16) + 32, window.innerHeight * 7/8 + 3 * Math.cos(3.14 / 32 * x));
+
+        textSize(16);
 
         photonDesc = drawPhotonBasisText(ap, ep, ab, ae);
 
