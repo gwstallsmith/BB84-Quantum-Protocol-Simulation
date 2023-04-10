@@ -1,4 +1,4 @@
-// This is the AnimManager
+// This is the AnmMnger
 // It employs the Singleton design pattern.
 // It will be used throughout the Alice, Bob, and Eve classes to keep track of what animations need to be executed.
 // Only a single instance of this class will exist. Alice, Bob and Eve will share this instance.
