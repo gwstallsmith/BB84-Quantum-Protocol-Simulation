@@ -32,7 +32,6 @@ function rerunSim() {
     if(!reload) { reload = true; }
 
     sim = new BB84();
-    am = new AnimManager();
 
     sim.runProtocol(keySize, eveIntercept);
     sim.simResults();
@@ -99,9 +98,7 @@ function draw() {
 
     if(!startSim) {
         drawStart();
-
-        // do settings menu here
-    
+            
     }
 
 
