@@ -132,8 +132,9 @@ function drawStart() {
     background(100, 100, 200);
     
     textSize(64);
-    text('BB84 Quantum Key Distribution', window.innerWidth * (1/4), window.innerHeight * 1/8);
-
+    textAlign(CENTER);
+    text('BB84 Quantum Key Distribution', window.innerWidth * (1/2), window.innerHeight * 1/8);
+    textAlign(LEFT);
     startStopButton = createButton('Start / Stop');
     startStopButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 32);
     startStopButton.mousePressed(pauseAnim);
