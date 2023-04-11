@@ -165,7 +165,6 @@ function drawDemo() {
     textSize(32);
 
     x++;
-    //inc = 17;
     switch(inc) {
         case 0:
             textSize(32);
