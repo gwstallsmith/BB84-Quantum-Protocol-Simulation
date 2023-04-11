@@ -1,7 +1,6 @@
 let keySize = 128;
-let xSpeed = 5;
+let xSpeed = 1;
 let eveIntercept = true;
-let reload = false;
 
 let sim = new BB84();
 let am = new AnimManager();
@@ -29,7 +28,6 @@ function rerunSim() {
     if(!keySize) { keySize = 128; }
     if(!xSpeed) { xSpeed = 1; }
     if(!eveIntercept) { eveIntercept = false; }
-    //if(!reload) { reload = true; }
 
     sim = new BB84();
 
@@ -109,10 +107,9 @@ function draw() {
         }
     } else {
         drawStart();
+        drawCredits();
     }
 }
-
-
 
 function drawStart() {
     background(100, 100, 200);
@@ -181,7 +178,6 @@ function openSettings() {
         keySize = parseInt(prompt("Please enter Key size.\n(128 Default)"));
         xSpeed = parseInt(prompt("Please enter photon speed.\n(1 Default)"));
         eveIntercept = confirm("Please select if Eve is present.\n\nOk = Yes\nCancel = No");
-        //reload = confirm("Reload page on animation end?\n\nOk = Yes\nCancel = No");
 
     }
     rerunSim();
@@ -306,5 +302,6 @@ function drawEveDetect(errorRate) {
 
 // Function to draw the names of those responsible for this site.
 function drawCredits() {
+    textSize(16);
     text('Made by Garrett Stallsmith,\nin conjunction with John Sipahioglu\n\nResearch by Dr. Younghoun Chae\n\nKent State COF-CS 2023', window.innerWidth * (3/4), window.innerHeight * (3/4));
 }
