@@ -29,7 +29,7 @@ function rerunSim() {
     if(!keySize) { keySize = 128; }
     if(!xSpeed) { xSpeed = 1; }
     if(!eveIntercept) { eveIntercept = false; }
-    if(!reload) { reload = true; }
+    //if(!reload) { reload = true; }
 
     sim = new BB84();
 
@@ -96,38 +96,33 @@ function preload() {
 function draw() {
     background(100, 100, 200);
 
-    if(!startSim) {
-        drawStart();
-            
-    }
-
-
     if(startSim) {
-        if(inc < keySize) {
-
-            drawSim();
+        if(inc < keySize) { drawSim(); }
+        if(inc >= keySize) {
+            if(confirm('Restart Animation?')) {
+               inc = 0;
+               x = window.innerWidth * (1/3);
+            }
+            else {
+                startSim = false;
+            }
         }
-        if(inc >= keySize && reload == true) {
-            location.reload()
-        } else if (inc >= keySize) {
-            rerunSim();
-        }
+    } else {
+        drawStart();
     }
 }
 
 
 
 function drawStart() {
-    
     background(100, 100, 200);
     
     textSize(64);
     text('BB84 Quantum Key Distribution', window.innerWidth * (1/5), window.innerHeight * 1/8);
 
-    startButton = createButton('Start')
-    startButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 32);
-    startButton.mousePressed(pauseAnim);
-
+    startStopButton = createButton('Start / Stop');
+    startStopButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 32);
+    startStopButton.mousePressed(pauseAnim);
 
     settingsButton = createButton('Settings');
     settingsButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) - 32);
@@ -142,18 +137,6 @@ function drawStart() {
 function drawSim() {
     background(100, 100, 200);
     
-    settingsButton = createButton('Settings');
-    settingsButton.position(window.innerWidth, window.innerHeight * (1/8));
-    settingsButton.mousePressed(openSettings);
-
-    infoButton = createButton('Research');
-    infoButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6));
-    infoButton.mousePressed(openResearch);
-
-    stopButton = createButton('Stop');
-    stopButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 32);
-    stopButton.mousePressed(pauseAnim);
-
     textSize(32);
 
     text('More Info Below!', window.innerWidth * (1/2) - 128, window.innerHeight * 7/8);
@@ -198,12 +181,12 @@ function openSettings() {
         keySize = parseInt(prompt("Please enter Key size.\n(128 Default)"));
         xSpeed = parseInt(prompt("Please enter photon speed.\n(1 Default)"));
         eveIntercept = confirm("Please select if Eve is present.\n\nOk = Yes\nCancel = No");
-        reload = confirm("Reload page on animation end?\n\nOk = Yes\nCancel = No");
+        //reload = confirm("Reload page on animation end?\n\nOk = Yes\nCancel = No");
 
     }
     rerunSim();
     inc = 0;
-    x = 0;
+    x = window.innerWidth * (1/3);
 
 }
 
@@ -217,7 +200,7 @@ function pauseAnim() {
     startSim = startSim == true ? false : true;
     rerunSim();
     inc = 0;
-    x = 0;
+    x = window.innerWidth * (1/3);
 }
 
 // Function to draw the one time pad dynamically as animation plays.
