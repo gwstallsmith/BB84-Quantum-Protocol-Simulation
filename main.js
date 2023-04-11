@@ -59,6 +59,9 @@ let x = window.innerWidth * (1/3);
 let photon;
 let photonDesc;
 
+let cof;
+let kent;
+
 let inc = 0;
 
 
@@ -85,6 +88,9 @@ function preload() {
     ninetyDeg = loadImage('0+90.png');
     hundredthirtyfiveDeg = loadImage('1x135.png');
 
+    cof = loadImage('cof.png');
+    kent = loadImage('kent.png');
+
 
     image(photon, window.innerWidth * (1/3), window.innerHeight * (1/3), 32, 32);
     
@@ -108,9 +114,15 @@ function draw() {
     } else {
         drawStart();
         drawCredits();
+        image(cof, window.innerWidth * (1/2) - 225, window.innerHeight * (1/3), 200, 200);
+        image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3), 200, 200);
+
+        textSize(32);
+        text('More Info Below!', window.innerWidth * (1/2) - 128, window.innerHeight * 7/8);
+        text('\nV', window.innerWidth * (1/2) - 16, window.innerHeight * 7/8 + 3 * Math.cos(3.14 / 32 * x));
+        x += 1;
     }
 }
-
 function drawStart() {
     background(100, 100, 200);
     

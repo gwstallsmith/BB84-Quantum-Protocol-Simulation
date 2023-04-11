@@ -373,7 +373,7 @@ class BB84 {
 
         this.errorRate_ = Math.ceil((1 - (this.agreedOTP_.length / keySize)) * 100);
 
-        if(this.errorRate_ > 70)
+        if(this.errorRate_ > 65)
             this.eveDetect_ = true;
     }
 
