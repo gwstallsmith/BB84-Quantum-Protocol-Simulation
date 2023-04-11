@@ -114,8 +114,8 @@ function draw() {
     } else {
         drawStart();
         drawCredits();
-        image(cof, window.innerWidth * (1/2) - 225, window.innerHeight * (1/3), 200, 200);
-        image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3), 200, 200);
+        image(cof, window.innerWidth * (1/2) - 325, window.innerHeight * (1/3) - 48, 300, 300);
+        image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3) - 48, 300, 300);
 
         textSize(32);
         text('More Info Below!', window.innerWidth * (1/2) - 128, window.innerHeight * 7/8);
