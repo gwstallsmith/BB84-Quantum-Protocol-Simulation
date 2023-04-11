@@ -135,6 +135,11 @@ function drawStart() {
     textAlign(CENTER);
     text('BB84 Quantum Key Distribution', window.innerWidth * (1/2), window.innerHeight * 1/8);
     textAlign(LEFT);
+
+    homeButton = createButton('Home');
+    homeButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) - 64);
+    homeButton.mousePressed(home);
+
     startStopButton = createButton('Start / Stop');
     startStopButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 32);
     startStopButton.mousePressed(pauseAnim);
@@ -147,9 +152,9 @@ function drawStart() {
     infoButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6));
     infoButton.mousePressed(openResearch);
 
-    demoButton = createButton('Demo');
-    demoButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 64);
-    demoButton.mousePressed(openDemo);
+    explButton = createButton('Explanation');
+    explButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 64);
+    explButton.mousePressed(openExpl);
 
     image(cof, window.innerWidth * (1/2) - 325, window.innerHeight * (1/3) - 48, 300, 300);
     image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3) - 4, 210, 210);
@@ -169,10 +174,18 @@ function drawDemo() {
     switch(inc) {
         case 0:
             textSize(32);
-            text('\t\t\tBB84 uses photons to create secure keys.\nHence why it is called a Quantum Key Distribution.', window.innerWidth * (1/3), window.innerHeight * (1/3));
-
-            break;
+            textAlign(CENTER);
+            text('You\'re about to watch an animated explanation of the BB84 protocol.\n\nIf you would like to end the explanation click the "Explanation" button again to return to the home screen.', window.innerWidth * (1/2), window.innerHeight * (1/3));
+            textAlign(LEFT);
+            break; 
         case 1:
+            textSize(32);
+            textAlign(CENTER);
+            text('BB84 uses photons to create secure keys.\nHence why it is called a Quantum Key Distribution.', window.innerWidth * (1/2), window.innerHeight * (1/3));
+            textAlign(LEFT);
+            x++;
+            break; 
+        case 2:
             text('It involves two people\n\t\tAlice and Bob.', window.innerWidth * (1/2) - 156, window.innerHeight * (1/3));
 
             textSize(16);
@@ -184,9 +197,9 @@ function drawDemo() {
             text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
 
             break;
-        case 2:
+        case 3:
             image(zeroDeg, x, window.innerHeight * (1/3), 96, 96);
-            text('\t\t\tThese yellow circles\nrepresent photons being sent\n\tbetween Alice and Bob.', x - 148, window.innerHeight * (1/2));
+            text('\n\n\t\t\tThese yellow circles\nrepresent photons being sent\n\tbetween Alice and Bob.', x - 148, window.innerHeight * (1/2));
 
             textSize(16);
 
@@ -197,7 +210,7 @@ function drawDemo() {
             text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
 
             break;
-        case 3:
+        case 4:
             image(fortyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
             text('Each photon has three values.', x - 148, window.innerHeight * (1/2));
             textSize(16);
@@ -209,7 +222,7 @@ function drawDemo() {
 
             break;
 
-        case 4:
+        case 5:
 
             image(ninetyDeg, x, window.innerHeight * (1/3), 96, 96);
             text('Basis, Polarization, and Bit', x - 148, window.innerHeight * (1/2));
@@ -224,7 +237,7 @@ function drawDemo() {
             text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
 
             break;
-        case 5:
+        case 6:
             text('There are four variations of photons.', window.innerWidth * (1/3) + 64, window.innerHeight * 1/8);
 
             text('0°', window.innerWidth * (1/4) - 64, window.innerHeight * (1/4)- 32);
@@ -250,7 +263,7 @@ function drawDemo() {
 
 
             break;
-        case 6:
+        case 7:
             text('On each basis there are two\npossible bit values. 1 and 0.', window.innerWidth * (1/3) + 64, window.innerHeight * 1/8);
 
             text('0° = 1 bit', window.innerWidth * (1/4) - 96, window.innerHeight * (1/4)- 32);
@@ -275,7 +288,7 @@ function drawDemo() {
             image(xMeasure, window.innerWidth * (3/4) - 96, window.innerHeight * (1/2));
 
             break;
-        case 7:
+        case 8:
             text('\t\t\tAlice sends Bob photons for them to measure.\nBob randomly selects a basis to measure each photon.',  window.innerWidth * (1/3) - 64, window.innerHeight * 1/8);
             text('Bob randomly selects either the + or x basis\n\t\t\t\t\t\t\t\tto measure each photon.',  window.innerWidth * (1/3) - 32, window.innerHeight * 3/4);
 
@@ -293,7 +306,7 @@ function drawDemo() {
             text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
 
             break;
-        case 8:
+        case 9:
             text('If Bob guesses correctly, they can measure the bit value of the photon.\nOtherwise they measure the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/3) - 160, window.innerHeight * 1/8);
 
             text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/3) - 192, window.innerHeight * 3/4);
@@ -317,7 +330,7 @@ function drawDemo() {
             text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
 
             break;
-        case 9:
+        case 10:
             text('If Bob guesses correctly, he can measure the bit value of the photon.\nOtherwise he measures the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/3) - 160, window.innerHeight * 1/8);
             text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/3) - 192, window.innerHeight * 3/4);
 
@@ -339,7 +352,7 @@ function drawDemo() {
 
             break;
 
-        case 10:
+        case 11:
             textAlign(CENTER);
             text('The purpose of this protocol is to ensure there are no eavesdroppers.',  window.innerWidth * (1/2), window.innerHeight * 1/8);
             text('To do this, the protocol takes advantage of the "No-Cloning" Theorem.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
@@ -360,7 +373,7 @@ function drawDemo() {
 
             break;
 
-        case 11:
+        case 12:
             textAlign(CENTER);
             text('Enter the eavesdropper: Eve.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
             text('Eve will intercept the photons and measure on their own basis',  window.innerWidth * (1/2), window.innerHeight * 7/8);
@@ -385,7 +398,7 @@ function drawDemo() {
         
             break;
             
-        case 12:
+        case 13:
             textAlign(CENTER);
             text('Eve measures the photons the same way Bob does.\nBy guessing the correct basis with a 50% probability.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
             text('But how can Alice and Bob detect if Eve is eavesdropping?',  window.innerWidth * (1/2), window.innerHeight * 7/8);
@@ -413,12 +426,10 @@ function drawDemo() {
 
             image(xMeasure, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
-    
-    
         
             break;
         
-        case 13:
+        case 14:
             textAlign(CENTER);
             text('By No-Cloning, Eve cannot measure a photon in the incorrect basis and "clone" the photon\nwhen Eve retransmits it to Bob. Essentially, if Eve guesses wrong, there is no way for\nthem to know what the polarization (and therefore bit value) of the photon actually is.',  window.innerWidth * (1/2), window.innerHeight * 5/8);
             text('\nNotice Eve changes the bit after measuring incorrectly.',  window.innerWidth * (1/2), window.innerHeight * 6/8);
@@ -449,7 +460,7 @@ function drawDemo() {
     
             break;
 
-        case 14:
+        case 15:
             textAlign(CENTER);
             text('Therefore, Bob now has only a\t25%\t(50% * 50%)\tchance of measuring the photon correctly.',  window.innerWidth * (1/2), window.innerHeight * 5/8);
             text('Alice and Bob will be able to observe about 75% of Bob\'s bits are incorrect.\nAs opposed to 50% between just Alice and Bob',  window.innerWidth * (1/2), window.innerHeight * 6/8);
@@ -481,7 +492,7 @@ function drawDemo() {
     
             break;
         
-        case 15:
+        case 16:
             textAlign(CENTER);
             text('Alice and Bob detect the presense of Eve by observing the bit error rate.',  window.innerWidth * (1/2), window.innerHeight * 5/8);
             text('If the error rate becomes too large (more than 65% for this simulation)\nAlice and Bob terminate communication.',  window.innerWidth * (1/2), window.innerHeight * 6/8);
@@ -512,7 +523,7 @@ function drawDemo() {
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
     
             break;
-        case 16:
+        case 17:
             textAlign(CENTER);
             text('Alice and Bob create secure keys using probability!',  window.innerWidth * (1/2), window.innerHeight * 5/8);
             text('Eve will be detected more often than not at a key size of 8.\nAs key size increases, the probabilty Eve remains undetected decreases.\n\nTypically, key sizes will be 512 or larger for modern encryption algorithms.',  window.innerWidth * (1/2), window.innerHeight * 6/8);
@@ -543,7 +554,7 @@ function drawDemo() {
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
     
             break;
-        case 17:
+        case 18:
             textAlign(CENTER);
             text('For more information please view the explanation below,\nor the paper this project is based on by clicking the "Research" button.',  window.innerWidth * (1/2), window.innerHeight * (5/8));
             if(x % 64 >= 0 && x % 64 <= 32) {
@@ -579,7 +590,7 @@ function drawDemo() {
         inc++;
     }
 
-    if(inc > 17) {
+    if(inc > 18) {
         startDemo = false;
         startSim = false;
     }
@@ -626,6 +637,11 @@ function drawSim() {
 
 }
 
+function home() {
+    startSim = false;
+    startDemo = false;
+}
+
 function openSettings() {
     settings = confirm("Would you like to enter settings?.\n\nOk = Yes\nCancel = No");
     if(settings) {
@@ -645,7 +661,7 @@ function openResearch() {
     window.open("Quantum Cryptography.pdf");
 }
 
-function openDemo() {
+function openExpl() {
     startSim = false;
     startDemo = startDemo == true ? false : true;
     inc = 0;
