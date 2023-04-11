@@ -115,7 +115,7 @@ function draw() {
         drawStart();
         drawCredits();
         image(cof, window.innerWidth * (1/2) - 325, window.innerHeight * (1/3) - 48, 300, 300);
-        image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3) - 16, 225, 225);
+        image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3) - 4, 210, 210);
 
         textSize(32);
         text('More Info Below!', window.innerWidth * (1/2) - 128, window.innerHeight * 7/8);
@@ -127,7 +127,7 @@ function drawStart() {
     background(100, 100, 200);
     
     textSize(64);
-    text('BB84 Quantum Key Distribution', window.innerWidth * (1/5), window.innerHeight * 1/8);
+    text('BB84 Quantum Key Distribution', window.innerWidth * (1/4), window.innerHeight * 1/8);
 
     startStopButton = createButton('Start / Stop');
     startStopButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 32);
