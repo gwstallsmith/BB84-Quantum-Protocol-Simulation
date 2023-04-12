@@ -1,5 +1,5 @@
 let startSim = false;
-let startDemo = false;
+let startExpl = false;
 let settings;
 
 let keySize = 128;
@@ -104,7 +104,7 @@ function preload() {
 function draw() {
     background(100, 100, 200);
 
-    if(startSim && !startDemo) {
+    if(startSim && !startExpl) {
         if(inc < keySize) { drawSim(); }
         if(inc >= keySize) {
             if(confirm('Restart Animation?')) {
@@ -115,18 +115,13 @@ function draw() {
                 startSim = false;
             }
         }
-    } else if(!startDemo) {
+    } else if(!startExpl) {
         drawStart();
         drawCredits();
-    } else if(startDemo) {
-        drawDemo();
+    } else if(startExpl) {
+        drawExpl();
     }
 }
-
-
-
-
-
 
 function drawStart() {
     background(100, 100, 200);
@@ -160,24 +155,36 @@ function drawStart() {
     image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3) - 4, 210, 210);
 
     textSize(32);
-    text('More Info Below!', window.innerWidth * (1/2) - 128, window.innerHeight * 7/8);
-    text('\nV', window.innerWidth * (1/2) - 16, window.innerHeight * 7/8 + 3 * Math.cos(3.14 / 32 * x));
+    textAlign(CENTER);
+    text('Scroll down for more info!', window.innerWidth * (1/2), window.innerHeight * 7/8);
+    textAlign(LEFT);
     x += 1;
 
 }
 
-function drawDemo() {
+function drawExpl() {
     background(100, 100, 200);
     textSize(32);
 
+    fill(110, 110, 210);
+    rect(window.innerWidth * (1/64), window.innerHeight * (1/64), 16, (window.innerWidth * (2/3) - window.innerWidth * (1/3)) * 5/4);
+
+    fill(255, 255, 255);
+
+    rect(window.innerWidth * (1/64), window.innerHeight * (1/64), 16, (x - innerWidth * (1/3)) * 5/4);
+    fill(255, 255, 255);
+
     x++;
+
     switch(inc) {
         case 0:
             textSize(32);
             textAlign(CENTER);
-            text('You\'re about to watch an animated explanation of the BB84 protocol.\n\nIf you would like to end the explanation click the "Explanation" button again to return to the home screen.', window.innerWidth * (1/2), window.innerHeight * (1/3));
+            text('This is an animated explanation of the BB84 protocol.\n\nIf you would like to end the explanation click the "Explanation" button again to return to the home screen.', window.innerWidth * (1/2), window.innerHeight * (1/3));
+            text('The bar represents how much time is left per animation.', window.innerWidth * (1/2), window.innerHeight * (2/3))
             textAlign(LEFT);
             break; 
+
         case 1:
             textSize(32);
             textAlign(CENTER);
@@ -185,6 +192,7 @@ function drawDemo() {
             textAlign(LEFT);
             x++;
             break; 
+
         case 2:
             text('It involves two people\n\t\tAlice and Bob.', window.innerWidth * (1/2) - 156, window.innerHeight * (1/3));
 
@@ -197,6 +205,7 @@ function drawDemo() {
             text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
 
             break;
+
         case 3:
             image(zeroDeg, x, window.innerHeight * (1/3), 96, 96);
             text('\n\n\t\t\tThese yellow circles\nrepresent photons being sent\n\tbetween Alice and Bob.', x - 148, window.innerHeight * (1/2));
@@ -210,6 +219,7 @@ function drawDemo() {
             text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
 
             break;
+
         case 4:
             image(fortyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
             text('Each photon has three values.', x - 148, window.innerHeight * (1/2));
@@ -237,6 +247,7 @@ function drawDemo() {
             text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
 
             break;
+
         case 6:
             text('There are four variations of photons.', window.innerWidth * (1/3) + 64, window.innerHeight * 1/8);
 
@@ -263,6 +274,7 @@ function drawDemo() {
 
 
             break;
+
         case 7:
             text('On each basis there are two\npossible bit values. 1 and 0.', window.innerWidth * (1/3) + 64, window.innerHeight * 1/8);
 
@@ -288,6 +300,7 @@ function drawDemo() {
             image(xMeasure, window.innerWidth * (3/4) - 96, window.innerHeight * (1/2));
 
             break;
+
         case 8:
             text('\t\t\tAlice sends Bob photons for them to measure.\nBob randomly selects a basis to measure each photon.',  window.innerWidth * (1/3) - 64, window.innerHeight * 1/8);
             text('Bob randomly selects either the + or x basis\n\t\t\t\t\t\t\t\tto measure each photon.',  window.innerWidth * (1/3) - 32, window.innerHeight * 3/4);
@@ -306,6 +319,7 @@ function drawDemo() {
             text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
 
             break;
+
         case 9:
             text('If Bob guesses correctly, they can measure the bit value of the photon.\nOtherwise they measure the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/3) - 160, window.innerHeight * 1/8);
 
@@ -330,6 +344,7 @@ function drawDemo() {
             text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
 
             break;
+
         case 10:
             text('If Bob guesses correctly, he can measure the bit value of the photon.\nOtherwise he measures the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/3) - 160, window.innerHeight * 1/8);
             text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/3) - 192, window.innerHeight * 3/4);
@@ -554,6 +569,7 @@ function drawDemo() {
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
     
             break;
+            
         case 18:
             textAlign(CENTER);
             text('For more information please view the explanation below,\nor the paper this project is based on by clicking the "Research" button.',  window.innerWidth * (1/2), window.innerHeight * (5/8));
@@ -591,7 +607,7 @@ function drawDemo() {
     }
 
     if(inc > 18) {
-        startDemo = false;
+        startExpl = false;
         startSim = false;
     }
 
@@ -601,9 +617,6 @@ function drawSim() {
     background(100, 100, 200);
     
     textSize(32);
-
-    text('More Info Below!', window.innerWidth * (1/2) - 128, window.innerHeight * 7/8);
-    text('\nV', window.innerWidth * (1/2) - 16, window.innerHeight * 7/8 + 3 * Math.cos(3.14 / 32 * x));
 
     textSize(16);
 
@@ -639,7 +652,7 @@ function drawSim() {
 
 function home() {
     startSim = false;
-    startDemo = false;
+    startExpl = false;
 }
 
 function openSettings() {
@@ -663,13 +676,13 @@ function openResearch() {
 
 function openExpl() {
     startSim = false;
-    startDemo = startDemo == true ? false : true;
+    startExpl = startExpl == true ? false : true;
     inc = 0;
     x = innerWidth * (1/3);
 }
 
 function pauseAnim() {
-    startDemo = false;
+    startExpl = false;
     startSim = startSim == true ? false : true;
     rerunSim();
     inc = 0;
