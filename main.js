@@ -166,6 +166,8 @@ function drawExpl() {
     background(100, 100, 200);
     textSize(32);
 
+    text(inc + ' / 18', window.innerWidth * (3/64), window.innerHeight * (4/64));
+
     fill(110, 110, 210);
     rect(window.innerWidth * (1/64), window.innerHeight * (1/64), 16, (window.innerWidth * (2/3) - window.innerWidth * (1/3)) * 5/4);
 
@@ -180,7 +182,7 @@ function drawExpl() {
         case 0:
             textSize(32);
             textAlign(CENTER);
-            text('This is an animated explanation of the BB84 protocol.\n\nIf you would like to end the explanation click the "Explanation" button again to return to the home screen.', window.innerWidth * (1/2), window.innerHeight * (1/3));
+            text('This is an animated explanation of the BB84 protocol.\n\nIf you would like to end the explanation click the "Home" button to return to the home screen.', window.innerWidth * (1/2), window.innerHeight * (1/3));
             text('The bar represents how much time is left per animation.', window.innerWidth * (1/2), window.innerHeight * (2/3))
             textAlign(LEFT);
             break; 
@@ -194,8 +196,9 @@ function drawExpl() {
             break; 
 
         case 2:
-            text('It involves two people\n\t\tAlice and Bob.', window.innerWidth * (1/2) - 156, window.innerHeight * (1/3));
-
+            textAlign(CENTER);
+            text('It involves two people\nAlice and Bob.', window.innerWidth * (1/2), window.innerHeight * (1/3));
+            textAlign(LEFT);
             textSize(16);
 
             image(alice, window.innerWidth * (1/3) - 144, window.innerHeight * (1/3) - 32, 128, 160);
@@ -222,7 +225,7 @@ function drawExpl() {
 
         case 4:
             image(fortyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
-            text('Each photon has three values.', x - 148, window.innerHeight * (1/2));
+            text('\n\nEach photon has three values.', x - 148, window.innerHeight * (1/2));
             textSize(16);
             image(alice, window.innerWidth * (1/3) - 144, window.innerHeight * (1/3) - 32, 128, 160);
             text('Alice', window.innerWidth * (1/3) - 104, window.innerHeight * (1/3) - 40);
@@ -235,10 +238,10 @@ function drawExpl() {
         case 5:
 
             image(ninetyDeg, x, window.innerHeight * (1/3), 96, 96);
-            text('Basis, Polarization, and Bit', x - 148, window.innerHeight * (1/2));
+            text('\n\nBasis, Polarization, and Bit', x - 148, window.innerHeight * (1/2));
             textSize(16);
 
-            text('Basis: + / x\nPolarization: 0°, 45°, 90°, 135°\nBit: 0 / 1', x - 96, window.innerHeight * (1/2) + 64);
+            text('\n\nBasis: + / x\nPolarization: 0°, 45°, 90°, 135°\nBit: 0 / 1', x - 96, window.innerHeight * (1/2) + 64);
 
             image(alice, window.innerWidth * (1/3) - 144, window.innerHeight * (1/3) - 32, 128, 160);
             text('Alice', window.innerWidth * (1/3) - 104, window.innerHeight * (1/3) - 40);
@@ -569,7 +572,7 @@ function drawExpl() {
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
     
             break;
-            
+
         case 18:
             textAlign(CENTER);
             text('For more information please view the explanation below,\nor the paper this project is based on by clicking the "Research" button.',  window.innerWidth * (1/2), window.innerHeight * (5/8));
