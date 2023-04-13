@@ -176,9 +176,7 @@ function mousePressed() {
         if(inc > 0)
             inc--;
 
-        x = window.innerWidth * (1/3);
-        console.log('prese');
-        
+        x = window.innerWidth * (1/3);        
     }
 
     if((mouseX > window.innerWidth * (1/64) + 80) && (mouseX < window.innerWidth * (1/64) + 144) &&
@@ -188,7 +186,6 @@ function mousePressed() {
             inc++;
 
         x = window.innerWidth * (1/3);
-        console.log('prese');
 
     }
 }
@@ -206,9 +203,6 @@ function drawExpl() {
     fill(255, 255, 255);
     rect(window.innerWidth * (1/64), window.innerHeight * (1/64), 16, (x - innerWidth * (1/3)) * 5/4);
 
-    x++;
-
-
     rect(window.innerWidth * (1/64), window.innerHeight * (7/8) + 32, 64, 32);
     rect(window.innerWidth * (1/64) + 80, window.innerHeight * (7/8) + 32, 64, 32);
 
@@ -217,8 +211,11 @@ function drawExpl() {
     text('Prev', window.innerWidth * (1/64) + 16, window.innerHeight * (7/8) + 54);
     text('Next', window.innerWidth * (1/64) + 96, window.innerHeight * (7/8) + 54);
     fill(255, 255, 255);
-
     textSize(32);
+
+
+    x++;
+    //inc = 8;
 
     switch(inc) {
         case 0:
@@ -364,10 +361,10 @@ function drawExpl() {
             textSize(16);
 
             image(alice, window.innerWidth * (1/3) - 144, window.innerHeight * (1/3) - 32, 128, 160);
-            text('Alice', window.innerWidth * (1/3) - 104, window.innerHeight * (1/3) - 40);
+            text('Alice', window.innerWidth * (1/3) - 90, window.innerHeight * (1/3) - 40);
         
             image(bob, window.innerWidth * (2/3) - 16, window.innerHeight * (1/3) - 40, 128, 128);
-            text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
+            text('Bob',  window.innerWidth * (2/3) + 48, window.innerHeight * (1/3) - 40);
 
             image(xMeasure, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
             text('Bob Basis', window.innerWidth * (7/12), window.innerHeight * (1/3) - 16);
