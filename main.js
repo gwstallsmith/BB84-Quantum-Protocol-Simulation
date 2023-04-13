@@ -185,7 +185,6 @@ function drawExpl() {
     fill(255, 255, 255);
 
     x++;
-    inc = 14;
 
     switch(inc) {
         case 0:
