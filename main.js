@@ -123,6 +123,7 @@ function draw() {
     }
 }
 
+// Draws the home screen
 function drawStart() {
     background(100, 100, 200);
     
@@ -162,6 +163,7 @@ function drawStart() {
 
 }
 
+// Animates and explanation of BB84
 function drawExpl() {
     background(100, 100, 200);
     textSize(32);
@@ -616,6 +618,7 @@ function drawExpl() {
 
 }
 
+// All of the sim drawing logic is stored in here
 function drawSim() {
     background(100, 100, 200);
     
@@ -653,11 +656,13 @@ function drawSim() {
 
 }
 
+// Takes the user back to the home screen
 function home() {
     startSim = false;
     startExpl = false;
 }
 
+// Function to prompt the user for settings
 function openSettings() {
     settings = confirm("Would you like to enter settings?.\n\nOk = Yes\nCancel = No");
     if(settings) {
@@ -677,6 +682,7 @@ function openResearch() {
     window.open("Quantum Cryptography.pdf");
 }
 
+// Function to start the animated explanation
 function openExpl() {
     startSim = false;
     startExpl = startExpl == true ? false : true;
@@ -684,6 +690,7 @@ function openExpl() {
     x = innerWidth * (1/3);
 }
 
+// Function to start and stop animation
 function pauseAnim() {
     startExpl = false;
     startSim = startSim == true ? false : true;
