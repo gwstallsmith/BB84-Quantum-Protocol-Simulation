@@ -170,6 +170,29 @@ function drawStart() {
 
 }
 
+function mousePressed() {
+    if((mouseX > window.innerWidth * (1/64)) && (mouseX < window.innerWidth * (1/64) + 64) &&
+       (mouseY > window.innerHeight * (7/8) + 32) && (mouseY < window.innerHeight * (7/8) + 64)) {
+        if(inc > 0)
+            inc--;
+
+        x = window.innerWidth * (1/3);
+        console.log('prese');
+        
+    }
+
+    if((mouseX > window.innerWidth * (1/64) + 80) && (mouseX < window.innerWidth * (1/64) + 144) &&
+       (mouseY > window.innerHeight * (7/8) + 32) && (mouseY < window.innerHeight * (7/8) + 64)) {
+       
+        if(inc < 18)
+            inc++;
+
+        x = window.innerWidth * (1/3);
+        console.log('prese');
+
+    }
+}
+
 // Animates and explanation of BB84
 function drawExpl() {
     background(100, 100, 200);
@@ -182,9 +205,20 @@ function drawExpl() {
 
     fill(255, 255, 255);
     rect(window.innerWidth * (1/64), window.innerHeight * (1/64), 16, (x - innerWidth * (1/3)) * 5/4);
-    fill(255, 255, 255);
 
     x++;
+
+
+    rect(window.innerWidth * (1/64), window.innerHeight * (7/8) + 32, 64, 32);
+    rect(window.innerWidth * (1/64) + 80, window.innerHeight * (7/8) + 32, 64, 32);
+
+    textSize(16);
+    fill(0, 0, 0);
+    text('Prev', window.innerWidth * (1/64) + 16, window.innerHeight * (7/8) + 54);
+    text('Next', window.innerWidth * (1/64) + 96, window.innerHeight * (7/8) + 54);
+    fill(255, 255, 255);
+
+    textSize(32);
 
     switch(inc) {
         case 0:
@@ -192,6 +226,13 @@ function drawExpl() {
             textAlign(CENTER);
             text('This is an animated explanation of the BB84 protocol.\n\nIf you would like to end the explanation click the "Home" button to return to the home screen.', window.innerWidth * (1/2), window.innerHeight * (1/3));
             text('The bar represents how much time is left per animation.', window.innerWidth * (1/2), window.innerHeight * (2/3))
+
+            if(x % 64 >= 0 && x % 64 <= 32) {
+                fill(255, 0, 0);
+                rect(window.innerWidth * (7/8) - 62, window.innerHeight * (1/6) - 76, 64, 28);
+                fill(255, 255, 255);
+            }
+
             textAlign(LEFT);
             break; 
 
@@ -329,7 +370,7 @@ function drawExpl() {
             text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
 
             image(xMeasure, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
-            text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
+            text('Bob Basis', window.innerWidth * (7/12), window.innerHeight * (1/3) - 16);
             textAlign(LEFT);
             break;
 
@@ -464,7 +505,7 @@ function drawExpl() {
         case 14:
             textAlign(CENTER);
             text('By No-Cloning, Eve cannot measure a photon in the incorrect basis and "clone" the photon\nwhen Eve retransmits it to Bob. Essentially, if Eve guesses wrong, there is no way for\nthem to know what the polarization (and therefore bit value) of the photon actually is.',  window.innerWidth * (1/2), window.innerHeight * 5/8);
-            text('\nNotice Eve changes the bit after measuring incorrectly.',  window.innerWidth * (1/2), window.innerHeight * 6/8);
+            text('\nNotice Eve changes the photon after measuring incorrectly.',  window.innerWidth * (1/2), window.innerHeight * 6/8);
 
             if((x < window.innerWidth * (1/3) - 48) || (x < window.innerWidth * (1/2) - 48))
                 image(ninetyDeg, x, window.innerHeight * (1/3), 96, 96);
