@@ -111,6 +111,8 @@ function preload() {
 function draw() {
     background(100, 100, 200);
 
+    
+
     if(startSim && !startExpl) {
         if(inc < keySize) { drawSim(); }
         if(inc >= keySize) {
@@ -136,31 +138,34 @@ function drawStart() {
     
     textSize(64);
     textAlign(CENTER);
-    text('BB84 Quantum Key Distribution', window.innerWidth * (1/2), window.innerHeight * 1/8);
+    text('BB84 Quantum Key Distribution', window.innerWidth * (1/2), window.innerHeight * (7/32));
     textAlign(LEFT);
 
+
     homeButton = createButton('Home');
-    homeButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) - 64);
+    homeButton.position(window.innerWidth * (2/8) - 16, window.innerHeight * (1/16));
     homeButton.mousePressed(home);
 
+    explButton = createButton('Info Slides');
+    explButton.position(window.innerWidth * (3/8) - 16, window.innerHeight * (1/16));
+    explButton.mousePressed(openExpl);
+
+    infoButton = createButton('Research');
+    infoButton.position(window.innerWidth * (4/8) - 16, window.innerHeight * (1/16));
+    infoButton.mousePressed(openResearch);
+
     startStopButton = createButton('Start / Stop');
-    startStopButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 32);
+    startStopButton.position(window.innerWidth * (5/8) - 16, window.innerHeight * (1/16));
     startStopButton.mousePressed(pauseAnim);
 
     settingsButton = createButton('Settings');
-    settingsButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) - 32);
+    settingsButton.position(window.innerWidth * (6/8)- 16, window.innerHeight * (1/16));
     settingsButton.mousePressed(openSettings);
 
-    infoButton = createButton('Research');
-    infoButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6));
-    infoButton.mousePressed(openResearch);
 
-    explButton = createButton('Explanation');
-    explButton.position(window.innerWidth * (7/8) - 48, window.innerHeight * (1/6) + 64);
-    explButton.mousePressed(openExpl);
 
-    image(cof, window.innerWidth * (1/2) - 325, window.innerHeight * (1/3) - 48, 300, 300);
-    image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3) - 4, 210, 210);
+    image(cof, window.innerWidth * (1/2) - 325, window.innerHeight * (1/3) - 16, 300, 300);
+    image(kent, window.innerWidth * (1/2) + 25, window.innerHeight * (1/3) + 28, 210, 210);
 
     textSize(32);
     textAlign(CENTER);
@@ -213,9 +218,7 @@ function drawExpl() {
     fill(255, 255, 255);
     textSize(32);
 
-
     x++;
-    //inc = 8;
 
     switch(inc) {
         case 0:
@@ -223,12 +226,6 @@ function drawExpl() {
             textAlign(CENTER);
             text('This is an animated explanation of the BB84 protocol.\n\nIf you would like to end the explanation click the "Home" button to return to the home screen.', window.innerWidth * (1/2), window.innerHeight * (1/3));
             text('The bar represents how much time is left per animation.', window.innerWidth * (1/2), window.innerHeight * (2/3))
-
-            if(x % 64 >= 0 && x % 64 <= 32) {
-                fill(255, 0, 0);
-                rect(window.innerWidth * (7/8) - 62, window.innerHeight * (1/6) - 76, 64, 28);
-                fill(255, 255, 255);
-            }
 
             textAlign(LEFT);
             break; 
@@ -631,11 +628,6 @@ function drawExpl() {
         case 18:
             textAlign(CENTER);
             text('For more information please view the explanation below,\nor the paper this project is based on by clicking the "Research" button.',  window.innerWidth * (1/2), window.innerHeight * (5/8));
-            if(x % 64 >= 0 && x % 64 <= 32) {
-                fill(255, 0, 0);
-                rect(window.innerWidth * (7/8) - 64, window.innerHeight * (1/6) - 12, 85, 28);
-                fill(255, 255, 255);
-            }
             textAlign(LEFT);
             textSize(16);
 
@@ -687,7 +679,7 @@ function drawSim() {
     fill(0, 0, 0);
     text('Prev', window.innerWidth * (1/64) + 16, window.innerHeight * (7/8) + 54);
     text('Next', window.innerWidth * (1/64) + 96, window.innerHeight * (7/8) + 54);
-    
+
     fill(255, 255, 255);
 
 
