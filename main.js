@@ -189,7 +189,9 @@ function mousePressed() {
        
         if(inc < 18)
             inc++;
-
+        else
+            home();
+            
         x = window.innerWidth * (1/3);
 
     }
@@ -296,7 +298,9 @@ function drawExpl() {
 
         case 6:
             textAlign(CENTER);
-            text('There are four variations of photons.', window.innerWidth * (1/2), window.innerHeight * 1/16);
+            textSize(24);
+            text('There are four\nvariations of photons.', window.innerWidth * (1/2), window.innerHeight * (1/2) - 64);
+            textSize(32);
 
             text('0°', window.innerWidth * (1/3), window.innerHeight * (1/4) - 32);
             image(zeroDeg, window.innerWidth * (1/3) - 48, window.innerHeight * (1/4));
@@ -324,8 +328,9 @@ function drawExpl() {
 
         case 7:
             textAlign(CENTER);
-            text('On each basis there are two\npossible bit values. 1 and 0.', window.innerWidth * (1/2), window.innerHeight * 1/16);
-
+            textSize(24);
+            text('On each basis there are\ntwo possible bit values,\n1 and 0.', window.innerWidth * (1/2), window.innerHeight * (1/2) - 64);
+            textSize(32);
             text('0° = 1 bit', window.innerWidth * (1/3), window.innerHeight * (1/4) - 32);
             image(zeroDeg, window.innerWidth * (1/3) - 48, window.innerHeight * (1/4));
 
@@ -350,7 +355,7 @@ function drawExpl() {
 
         case 8:
             textAlign(CENTER);
-            text('Alice sends Bob photons for them to measure.\nBob randomly selects a basis to measure each photon.',  window.innerWidth * (1/2), window.innerHeight * 1/8);
+            text('Alice sends Bob photons for them to measure.\nBob randomly selects a basis to measure each photon.',  window.innerWidth * (1/2), window.innerHeight * 1/8 + 24);
             text('Bob randomly selects either the + or x basis\nto measure each photon.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
 
             image(hundredthirtyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
@@ -370,8 +375,7 @@ function drawExpl() {
 
         case 9:
             textAlign(CENTER);
-            text('If Bob guesses correctly, they can measure the bit value of the photon.\nOtherwise they measure the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/2), window.innerHeight * 1/8);
-
+            text('If Bob guesses correctly, they can measure the bit value of the photon.\nOtherwise they measure the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/2), window.innerHeight * 1/8 + 32);
             text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
 
             image(hundredthirtyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
@@ -396,7 +400,7 @@ function drawExpl() {
 
         case 10:
             textAlign(CENTER);
-            text('If Bob guesses correctly, he can measure the bit value of the photon.\nOtherwise he measures the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/2), window.innerHeight * 1/8);
+            text('If Bob guesses incorrectly, they cannot determine the value of the bit.',  window.innerWidth * (1/2), window.innerHeight * 1/8 + 32);
             text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
 
             image(hundredthirtyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
@@ -409,19 +413,19 @@ function drawExpl() {
             image(bob, window.innerWidth * (2/3) - 16, window.innerHeight * (1/3) - 40, 128, 128);
             text('Bob',  window.innerWidth * (2/3) + 48, window.innerHeight * (1/3) - 40);
 
-            fill(0, 255, 0)
-            text('Correct basis\nBit value = 1',  window.innerWidth * (2/3) + 48, window.innerHeight * (1/3) + 128);
+            fill(255, 0, 0)
+            text('Incorrect basis\nBit value = Undefined',  window.innerWidth * (2/3) + 48, window.innerHeight * (1/3) + 128);
             fill(255, 255, 255);
 
 
-            image(xMeasure, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
+            image(plusMeasure, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
             text('Bob Basis', window.innerWidth * (7/12), window.innerHeight * (1/3) - 16);
             textAlign(LEFT);
             break;
 
         case 11:
             textAlign(CENTER);
-            text('The purpose of this protocol is to ensure there are no eavesdroppers.',  window.innerWidth * (1/2), window.innerHeight * 1/8);
+            text('The purpose of this protocol is to ensure there are no eavesdroppers.',  window.innerWidth * (1/2), window.innerHeight * 1/8 + 32);
             text('To do this, the protocol takes advantage of the "No-Cloning" Theorem.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
 
             image(ninetyDeg, x, window.innerHeight * (1/3), 96, 96);
@@ -460,7 +464,7 @@ function drawExpl() {
             text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
 
             image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
-            text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+            text('Eve', window.innerWidth * (1/2) + 48, window.innerHeight * (1/4) - 32);
     
         
             break;
@@ -489,7 +493,7 @@ function drawExpl() {
 
 
             image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
-            text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+            text('Eve', window.innerWidth * (1/2) + 48, window.innerHeight * (1/4) - 32);
 
             image(xMeasure, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
@@ -520,7 +524,7 @@ function drawExpl() {
 
 
             image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
-            text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+            text('Eve', window.innerWidth * (1/2) + 48, window.innerHeight * (1/4) - 32);
 
             image(xMeasure, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
@@ -553,7 +557,7 @@ function drawExpl() {
 
 
             image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
-            text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+            text('Eve', window.innerWidth * (1/2) + 48, window.innerHeight * (1/4) - 32);
 
             image(xMeasure, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
@@ -586,7 +590,7 @@ function drawExpl() {
 
 
             image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
-            text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+            text('Eve', window.innerWidth * (1/2) + 48, window.innerHeight * (1/4) - 32);
 
             image(xMeasure, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
@@ -618,7 +622,7 @@ function drawExpl() {
 
 
             image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
-            text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+            text('Eve', window.innerWidth * (1/2) + 48, window.innerHeight * (1/4) - 32);
 
             image(xMeasure, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
@@ -642,7 +646,7 @@ function drawExpl() {
 
 
             image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
-            text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+            text('Eve', window.innerWidth * (1/2) + 48, window.innerHeight * (1/4) - 32);
 
             image(xMeasure, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
