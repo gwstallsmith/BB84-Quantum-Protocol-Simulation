@@ -68,6 +68,13 @@ let kent;
 
 let inc = 0;
 
+// Buttons
+let homeButton;
+let startStopButton;
+let settingsButton;
+let infoButton;
+let explButton;
+
 
 // P5 function.
 function setup() {
@@ -174,11 +181,11 @@ function drawExpl() {
     rect(window.innerWidth * (1/64), window.innerHeight * (1/64), 16, (window.innerWidth * (2/3) - window.innerWidth * (1/3)) * 5/4);
 
     fill(255, 255, 255);
-
     rect(window.innerWidth * (1/64), window.innerHeight * (1/64), 16, (x - innerWidth * (1/3)) * 5/4);
     fill(255, 255, 255);
 
     x++;
+    inc = 14;
 
     switch(inc) {
         case 0:
@@ -243,7 +250,7 @@ function drawExpl() {
             text('\n\nBasis, Polarization, and Bit', x - 148, window.innerHeight * (1/2));
             textSize(16);
 
-            text('\n\nBasis: + / x\nPolarization: 0°, 45°, 90°, 135°\nBit: 0 / 1', x - 96, window.innerHeight * (1/2) + 64);
+            text('\n\n\nBasis: + / x\nPolarization: 0°, 45°, 90°, 135°\nBit: 0 / 1', x - 96, window.innerHeight * (1/2) + 64);
 
             image(alice, window.innerWidth * (1/3) - 144, window.innerHeight * (1/3) - 32, 128, 160);
             text('Alice', window.innerWidth * (1/3) - 104, window.innerHeight * (1/3) - 40);
@@ -254,61 +261,63 @@ function drawExpl() {
             break;
 
         case 6:
-            text('There are four variations of photons.', window.innerWidth * (1/3) + 64, window.innerHeight * 1/8);
+            textAlign(CENTER);
+            text('There are four variations of photons.', window.innerWidth * (1/2), window.innerHeight * 1/16);
 
-            text('0°', window.innerWidth * (1/4) - 64, window.innerHeight * (1/4)- 32);
-            image(zeroDeg, window.innerWidth * (1/4) - 96, window.innerHeight * (1/4));
+            text('0°', window.innerWidth * (1/3), window.innerHeight * (1/4) - 32);
+            image(zeroDeg, window.innerWidth * (1/3) - 48, window.innerHeight * (1/4));
 
-            text('90°', window.innerWidth * (1/4) - 64, window.innerHeight * (3/4)- 32);
-            image(ninetyDeg, window.innerWidth * (1/4) - 96, window.innerHeight * (3/4));
+            text('90°', window.innerWidth * (1/3), window.innerHeight * (3/4) - 32);
+            image(ninetyDeg, window.innerWidth * (1/3) - 48, window.innerHeight * (3/4));
 
 
-            text('45°', window.innerWidth * (3/4) - 64, window.innerHeight * (1/4)- 32);
-            image(fortyfiveDeg, window.innerWidth * (3/4) - 96, window.innerHeight * (1/4));
+            text('45°', window.innerWidth * (2/3), window.innerHeight * (1/4)- 32);
+            image(fortyfiveDeg, window.innerWidth * (2/3) - 48, window.innerHeight * (1/4));
 
-            text('135°', window.innerWidth * (3/4) - 80, window.innerHeight * (3/4) - 32);
-            image(hundredthirtyfiveDeg, window.innerWidth * (3/4) - 96, window.innerHeight * (3/4));
+            text('135°', window.innerWidth * (2/3), window.innerHeight * (3/4) - 32);
+            image(hundredthirtyfiveDeg, window.innerWidth * (2/3) - 48, window.innerHeight * (3/4));
 
 
             textSize(16);
-            text('0° and 90° can only be\nmeasured with the + basis.', window.innerWidth * (1/4) - 128, window.innerHeight * (1/2) - 48);
-            image(plusMeasure, window.innerWidth * (1/4) - 96, window.innerHeight * (1/2));
+            text('0° and 90° can only be\nmeasured with the + basis.', window.innerWidth * (1/3), window.innerHeight * (1/2) - 48);
+            image(plusMeasure, window.innerWidth * (1/3) - 48, window.innerHeight * (1/2));
 
-            text('45° and 135° can only be\nmeasured with the x basis.', window.innerWidth * (3/4) - 128, window.innerHeight * (1/2) - 48);
-            image(xMeasure, window.innerWidth * (3/4) - 96, window.innerHeight * (1/2));
-
+            text('45° and 135° can only be\nmeasured with the x basis.', window.innerWidth * (2/3), window.innerHeight * (1/2) - 48);
+            image(xMeasure, window.innerWidth * (2/3) - 48, window.innerHeight * (1/2));
+            textAlign(LEFT);
 
             break;
 
         case 7:
-            text('On each basis there are two\npossible bit values. 1 and 0.', window.innerWidth * (1/3) + 64, window.innerHeight * 1/8);
+            textAlign(CENTER);
+            text('On each basis there are two\npossible bit values. 1 and 0.', window.innerWidth * (1/2), window.innerHeight * 1/16);
 
-            text('0° = 1 bit', window.innerWidth * (1/4) - 96, window.innerHeight * (1/4)- 32);
-            image(zeroDeg, window.innerWidth * (1/4) - 96, window.innerHeight * (1/4));
+            text('0° = 1 bit', window.innerWidth * (1/3), window.innerHeight * (1/4) - 32);
+            image(zeroDeg, window.innerWidth * (1/3) - 48, window.innerHeight * (1/4));
 
-            text('90° = 0 bit', window.innerWidth * (1/4) - 104, window.innerHeight * (3/4)- 32);
-            image(ninetyDeg, window.innerWidth * (1/4) - 96, window.innerHeight * (3/4));
+            text('90° = 0 bit', window.innerWidth * (1/3), window.innerHeight * (3/4) - 32);
+            image(ninetyDeg, window.innerWidth * (1/3) - 48, window.innerHeight * (3/4));
 
+            text('45° = 0 bit', window.innerWidth * (2/3), window.innerHeight * (1/4)- 32);
+            image(fortyfiveDeg, window.innerWidth * (2/3) - 48, window.innerHeight * (1/4));
 
-            text('45° = 0 bit', window.innerWidth * (3/4) - 104, window.innerHeight * (1/4)- 32);
-            image(fortyfiveDeg, window.innerWidth * (3/4) - 96, window.innerHeight * (1/4));
-
-            text('135° = 1 bit', window.innerWidth * (3/4) - 124, window.innerHeight * (3/4) - 32);
-            image(hundredthirtyfiveDeg, window.innerWidth * (3/4) - 96, window.innerHeight * (3/4));
+            text('135° = 1 bit', window.innerWidth * (2/3), window.innerHeight * (3/4) - 32);
+            image(hundredthirtyfiveDeg, window.innerWidth * (2/3) - 48, window.innerHeight * (3/4));
 
 
             textSize(16);
-            text('0° and 90° can only be\nmeasured with the + basis.', window.innerWidth * (1/4) - 128, window.innerHeight * (1/2) - 48);
-            image(plusMeasure, window.innerWidth * (1/4) - 96, window.innerHeight * (1/2));
+            text('0° and 90° can only be\nmeasured with the + basis.', window.innerWidth * (1/3), window.innerHeight * (1/2) - 48);
+            image(plusMeasure, window.innerWidth * (1/3) - 48, window.innerHeight * (1/2));
 
-            text('45° and 135° can only be\nmeasured with the x basis.', window.innerWidth * (3/4) - 128, window.innerHeight * (1/2) - 48);
-            image(xMeasure, window.innerWidth * (3/4) - 96, window.innerHeight * (1/2));
-
+            text('45° and 135° can only be\nmeasured with the x basis.', window.innerWidth * (2/3), window.innerHeight * (1/2) - 48);
+            image(xMeasure, window.innerWidth * (2/3) - 48, window.innerHeight * (1/2));
+            textAlign(LEFT);
             break;
 
         case 8:
-            text('\t\t\tAlice sends Bob photons for them to measure.\nBob randomly selects a basis to measure each photon.',  window.innerWidth * (1/3) - 64, window.innerHeight * 1/8);
-            text('Bob randomly selects either the + or x basis\n\t\t\t\t\t\t\t\tto measure each photon.',  window.innerWidth * (1/3) - 32, window.innerHeight * 3/4);
+            textAlign(CENTER);
+            text('Alice sends Bob photons for them to measure.\nBob randomly selects a basis to measure each photon.',  window.innerWidth * (1/2), window.innerHeight * 1/8);
+            text('Bob randomly selects either the + or x basis\nto measure each photon.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
 
             image(hundredthirtyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
 
@@ -322,54 +331,58 @@ function drawExpl() {
 
             image(xMeasure, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
             text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
-
+            textAlign(LEFT);
             break;
 
         case 9:
-            text('If Bob guesses correctly, they can measure the bit value of the photon.\nOtherwise they measure the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/3) - 160, window.innerHeight * 1/8);
+            textAlign(CENTER);
+            text('If Bob guesses correctly, they can measure the bit value of the photon.\nOtherwise they measure the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/2), window.innerHeight * 1/8);
 
-            text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/3) - 192, window.innerHeight * 3/4);
+            text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
 
             image(hundredthirtyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
 
             textSize(16);
 
             image(alice, window.innerWidth * (1/3) - 144, window.innerHeight * (1/3) - 32, 128, 160);
-            text('Alice', window.innerWidth * (1/3) - 104, window.innerHeight * (1/3) - 40);
+            text('Alice', window.innerWidth * (1/3) - 90, window.innerHeight * (1/3) - 40);
         
             image(bob, window.innerWidth * (2/3) - 16, window.innerHeight * (1/3) - 40, 128, 128);
-            text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
+            text('Bob',  window.innerWidth * (2/3) + 48, window.innerHeight * (1/3) - 40);
 
             fill(0, 255, 0)
-            text('Correct basis\nBit value = 1',  window.innerWidth * (2/3), window.innerHeight * (1/3) + 128);
+            text('Correct basis\nBit value = 1',  window.innerWidth * (2/3) + 48, window.innerHeight * (1/3) + 128);
             fill(255, 255, 255);
 
 
             image(xMeasure, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
-            text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
-
+            text('Bob Basis', window.innerWidth * (7/12), window.innerHeight * (1/3) - 16);
+            textAlign(LEFT);
             break;
 
         case 10:
-            text('If Bob guesses correctly, he can measure the bit value of the photon.\nOtherwise he measures the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/3) - 160, window.innerHeight * 1/8);
-            text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/3) - 192, window.innerHeight * 3/4);
+            textAlign(CENTER);
+            text('If Bob guesses correctly, he can measure the bit value of the photon.\nOtherwise he measures the bit value as "Undefined" and discounts it.',  window.innerWidth * (1/2), window.innerHeight * 1/8);
+            text('Bob has a 50% chance of guessing the basis and measuring the bit correctly.',  window.innerWidth * (1/2), window.innerHeight * 3/4);
 
             image(hundredthirtyfiveDeg, x, window.innerHeight * (1/3), 96, 96);
 
             textSize(16);
 
             image(alice, window.innerWidth * (1/3) - 144, window.innerHeight * (1/3) - 32, 128, 160);
-            text('Alice', window.innerWidth * (1/3) - 104, window.innerHeight * (1/3) - 40);
+            text('Alice', window.innerWidth * (1/3) - 90, window.innerHeight * (1/3) - 40);
         
             image(bob, window.innerWidth * (2/3) - 16, window.innerHeight * (1/3) - 40, 128, 128);
-            text('Bob',  window.innerWidth * (2/3) + 28, window.innerHeight * (1/3) - 40);
-            fill(255, 0, 0)
-            text('\tIncorrect basis\nUnknown bit value',  window.innerWidth * (2/3) - 16, window.innerHeight * (1/3) + 128);
+            text('Bob',  window.innerWidth * (2/3) + 48, window.innerHeight * (1/3) - 40);
+
+            fill(0, 255, 0)
+            text('Correct basis\nBit value = 1',  window.innerWidth * (2/3) + 48, window.innerHeight * (1/3) + 128);
             fill(255, 255, 255);
 
-            image(plusMeasure, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
-            text('Bob Basis', window.innerWidth * (7/12) - 38, window.innerHeight * (1/3) - 16);
 
+            image(xMeasure, window.innerWidth * (7/12) - 48, window.innerHeight * (1/3), 96, 96);
+            text('Bob Basis', window.innerWidth * (7/12), window.innerHeight * (1/3) - 16);
+            textAlign(LEFT);
             break;
 
         case 11:
@@ -477,13 +490,14 @@ function drawExpl() {
 
             image(xMeasure, window.innerWidth * (1/2) - 48, window.innerHeight * (1/3), 96, 96);
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
-    
+
+            x += -0.5;
             break;
 
         case 15:
             textAlign(CENTER);
-            text('Therefore, Bob now has only a\t25%\t(50% * 50%)\tchance of measuring the photon correctly.',  window.innerWidth * (1/2), window.innerHeight * 5/8);
-            text('Alice and Bob will be able to observe about 75% of Bob\'s bits are incorrect.\nAs opposed to 50% between just Alice and Bob',  window.innerWidth * (1/2), window.innerHeight * 6/8);
+            text('Eve has a 50% chance of guessing the correct\npolarization and bit when sending the photon to Bob.',  window.innerWidth * (1/2), window.innerHeight * 5/8);
+            text('Alice and Bob will be able to observe a discrepency\nin the bit values Alice sent and bit values Bob recieved.',  window.innerWidth * (1/2), window.innerHeight * 6/8);
 
             if((x < window.innerWidth * (1/3) - 48) || (x < window.innerWidth * (1/2) - 48))
                 image(ninetyDeg, x, window.innerHeight * (1/3), 96, 96);
@@ -514,8 +528,9 @@ function drawExpl() {
         
         case 16:
             textAlign(CENTER);
-            text('Alice and Bob detect the presense of Eve by observing the bit error rate.',  window.innerWidth * (1/2), window.innerHeight * 5/8);
-            text('If the error rate becomes too large (more than 65% for this simulation)\nAlice and Bob terminate communication.',  window.innerWidth * (1/2), window.innerHeight * 6/8);
+            text('Alice and Bob detect Eve by observing the bit error rate.',  window.innerWidth * (1/2), window.innerHeight * 5/8 - 16);
+            text('If Eve is absent, the error rate will approach 0%.\nIf Eve is present, the error rate will approach 50%.',  window.innerWidth * (1/2), window.innerHeight * 6/8 - 32);
+            text('Acceptable error rate is 20%.\nThey need to account for noise over the medium or other distubances,\nthe theoretical 0% error rate is not always achievable.', window.innerWidth * (1/2), window.innerHeight * (7/8) - 16)
 
             if((x < window.innerWidth * (1/3) - 48) || (x < window.innerWidth * (1/2) - 48))
                 image(ninetyDeg, x, window.innerHeight * (1/3), 96, 96);
@@ -543,6 +558,7 @@ function drawExpl() {
             text('Eve Basis', window.innerWidth * (1/2) - 38, window.innerHeight * (1/3) - 16);
     
             break;
+
         case 17:
             textAlign(CENTER);
             text('Alice and Bob create secure keys using probability!',  window.innerWidth * (1/2), window.innerHeight * 5/8);
