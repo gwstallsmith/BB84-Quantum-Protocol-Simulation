@@ -129,6 +129,7 @@ class Alice {
         this.polar_ = "0";
         this.otp_ = [];
         this.botp_ = [];
+        this.potp_ = [];
 
         this.am_ = new AnimManager();
     }
@@ -165,20 +166,51 @@ class Alice {
             this.am_.pushAlicePhoton(new Photon(this.bit_, this.basis_, this.polar_));
             this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_));
         }
+        this.potp_ = this.otp_;
         return this.otp_;
     }
 
     // This method is used to compare the bit values Alice sent and bit values Bob received.
     compareOTP(inOTP) {
+        let tempOTP = []
         for(let i = 0; i < inOTP.length; i++) {
-            if((this.otp_[i].getBasis() == inOTP[i].getBasis()) && (this.otp_[i].getBit() == inOTP[i].getBit()) && (this.otp_[i].getPolar() == inOTP[i].getPolar())) {
+            if((this.otp_[i].getBasis() == inOTP[i].getBasis())) {
                 this.botp_.push(inOTP[i].getBit());
+                tempOTP.push(this.otp_[i]);
             }
         }
+
+        this.otp_ = tempOTP;
+        
         return this.botp_;
     }
 
+    calcErrorRate() {
+        let errorAmount = 0;
+        let subsetSize = 0;
+
+
+        // Making sure the subsetSize is reasonable for comparison
+        while(subsetSize < (this.otp_.length / 3)) {
+            subsetSize =  Math.ceil(Math.random() * this.otp_.length);
+        }
+
+        for(let i = 0; i < subsetSize; i++) {
+            if(this.botp_[i] != this.otp_[i].getBit()) {
+                errorAmount++;
+            }
+        }
+        // They then compare a random subset of the photons they are keeping.
+        // If the error rate is above an acceptable threshold, 20%, they conclude there is Eve
+
+        // Need photons we're keeping (we know they're measured in the correct basis)
+        // Compare bit values and find error rate
+        return (errorAmount / subsetSize);
+    }
+
     getOTP() { return this.otp_; }
+    getBOTP() { return this.botp_; }
+    getPOTP() { return this.potp_; }
 
     // Utility print functions for debugging.
     printOTP() { for(let i = 0; i < this.otp_.length; i++) { console.log(i + ".) " + this.otp_[i].getBit() + " " + this.otp_[i].getBasis() + " " + this.otp_[i].getPolar()); } }
@@ -343,6 +375,8 @@ class Eve {
 }
 
 // This is a class to manage the BB84 protocol.
+const ACCEPTABLE_ERROR_RATE = 0.2;
+
 class BB84 {
     constructor() {
         this.a_ = new Alice();
@@ -355,6 +389,7 @@ class BB84 {
 
         this.eveIntercept_ = false;
         this.eveDetect_ = false;
+
     }
 
     getAlice() { return this.a_; }
@@ -363,17 +398,26 @@ class BB84 {
 
     // To run the protocol we need to know the size of the key and if Eve will be intercepting photons.
     runProtocol(keySize, eveIntercept) {
+        let inOTP;
         if(eveIntercept) {
-            this.agreedOTP_ = this.a_.compareOTP(this.b_.measureOTP(this.e_.measureOTP(this.a_.generateOTP(keySize))));
+            inOTP = this.b_.measureOTP(this.e_.measureOTP(this.a_.generateOTP(keySize)));
+            this.agreedOTP_ = this.a_.compareOTP(inOTP);
+
+            this.a_.calcErrorRate(inOTP);
+
             this.eveIntercept_ = true;
         } else {
-            this.agreedOTP_ = this.a_.compareOTP(this.b_.measureOTP(this.a_.generateOTP(keySize)));
+            inOTP = this.b_.measureOTP(this.a_.generateOTP(keySize))
+            this.agreedOTP_ = this.a_.compareOTP(inOTP);
+
+            
             this.eveIntercept_ = false;
         }
 
-        this.errorRate_ = Math.ceil((1 - (this.agreedOTP_.length / keySize)) * 100);
+        this.errorRate_ = this.a_.calcErrorRate(inOTP);
 
-        if(this.errorRate_ > 65)
+
+        if(this.errorRate_ > ACCEPTABLE_ERROR_RATE)
             this.eveDetect_ = true;
     }
 
@@ -385,7 +429,7 @@ class BB84 {
     // Utility print function.
     simResults() {
         console.log("Sim:");
-        console.log("Error Rate: " + this.errorRate_ + "%");
+        console.log("Error Rate: " + Math.ceil(this.errorRate_ * 100) + "%");
         console.log("Eve Intercept: " + this.eveIntercept_);
         console.log("Eve Detection: " + this.eveDetect_ + "\n" + "\n");
     }

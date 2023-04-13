@@ -694,11 +694,13 @@ function pauseAnim() {
 
 // Function to draw the one time pad dynamically as animation plays.
 function drawOTP(inc) {
+    // need to add another pad to alice.
+    // in comparefunction assign a new member variable to otp before otp is assigned to tempotp
     let shiftDown = 0;
     text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 208);
 
     for(let i = 0; i < inc; i++) {
-        text(sim.getAlice().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 208 + 16 * shiftDown);
+        text(sim.getAlice().getPOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 208 + 16 * shiftDown);
         if(i % 32 == 31) shiftDown++;
     }
     if(eveIntercept) {
@@ -768,18 +770,15 @@ function drawPhotonBasisText(ap, ep, ab, ae) {
 
 // Function to dynamically draw error rate during animation.
 function drawErrorRate(inc) {
-    let correctPhoton = 0;
+    let errorAmount = 0;
     let errorRate = 0;
     for(let i = 0; i < inc; i++) {
-        if(sim.getBob().getOTP()[i].getBit() != 'U') {
-            if((sim.getAlice().getOTP()[i].getBit() == sim.getBob().getOTP()[i].getBit()
-            && sim.getAlice().getOTP()[i].getBasis() == sim.getBob().getOTP()[i].getBasis()
-            && sim.getAlice().getOTP()[i].getPolar() == sim.getBob().getOTP()[i].getPolar()))
-            { correctPhoton++; }
+        if(sim.getAlice().getOTP()[i].getBit() != sim.getAlice().getBOTP()[i]) {
+            errorAmount++;
         }
     }
 
-    errorRate = Math.ceil((1 - correctPhoton / inc) * 100);
+    errorRate = Math.ceil(errorAmount / inc * 100);
 
     text('Error Rate: ' + errorRate + '%', window.innerWidth * (1/8), window.innerHeight * (1/8));
 
@@ -789,7 +788,7 @@ function drawErrorRate(inc) {
 // Function to dynamically draw whether Eve is detected during animation.
 // If errrorRate > 70% then Eve is detected.
 function drawEveDetect(errorRate) {
-    if(errorRate > 70) { text('Eve Detect: True', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
+    if(errorRate > 20) { text('Eve Detect: True', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
     else { text('Eve Detect: False', window.innerWidth * (1/8), window.innerHeight * (1/6)); }
 }
 
