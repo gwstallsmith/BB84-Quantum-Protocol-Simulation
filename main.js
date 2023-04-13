@@ -679,6 +679,19 @@ function drawSim() {
 
     textSize(16);
 
+    fill(255, 255, 255);
+
+    rect(window.innerWidth * (1/64), window.innerHeight * (7/8) + 32, 64, 32);
+    rect(window.innerWidth * (1/64) + 80, window.innerHeight * (7/8) + 32, 64, 32);
+
+    fill(0, 0, 0);
+    text('Prev', window.innerWidth * (1/64) + 16, window.innerHeight * (7/8) + 54);
+    text('Next', window.innerWidth * (1/64) + 96, window.innerHeight * (7/8) + 54);
+    
+    fill(255, 255, 255);
+
+
+
     photonDesc = drawPhotonBasisText(ap, ep, ab, ae);
 
     image(photon, x, window.innerHeight * (1/3), 96, 96);
