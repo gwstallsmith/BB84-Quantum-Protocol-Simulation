@@ -600,7 +600,7 @@ function drawExpl() {
         case 17:
             textAlign(CENTER);
             text('Alice and Bob create secure keys using probability!',  window.innerWidth * (1/2), window.innerHeight * 5/8);
-            text('Eve will be detected more often than not at a key size of 8.\nAs key size increases, the probabilty Eve remains undetected decreases.\n\nTypically, key sizes will be 512 or larger for modern encryption algorithms.',  window.innerWidth * (1/2), window.innerHeight * 6/8);
+            text('Eve will be detected more often than not at a key size of 8.\nThe more photons that are sent, the more likely it is that Eve is detected.\n\nTypically, key sizes (amount of photons) will be 512 or larger for modern encryption algorithms.',  window.innerWidth * (1/2), window.innerHeight * 6/8 - 16);
 
             if((x < window.innerWidth * (1/3) - 48) || (x < window.innerWidth * (1/2) - 48))
                 image(ninetyDeg, x, window.innerHeight * (1/3), 96, 96);
