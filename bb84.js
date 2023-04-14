@@ -20,6 +20,15 @@ class AnimManager {
         AnimManager.instance = this;
     }
 
+    reset() {
+        while(!(this.alicePhotons_.length == 0 && this.evePhotons_ == 0 && this.bobMeasure_ == 0 && this.eveMeasure_ == 0)) {
+            this.alicePhotons_.pop();
+            this.evePhotons_.pop();
+            this.bobMeasure_.pop();
+            this.eveMeasure_.pop();
+            }
+    }
+
     // Getters, nothing too special
     getAlicePhotons() { return this.alicePhotons_; }
     getEvePhotons() { return this.evePhotons_; }
@@ -173,6 +182,7 @@ class Alice {
     // This method is used to compare the bit values Alice sent and bit values Bob received.
     compareOTP(inOTP) {
         let tempOTP = []
+
         for(let i = 0; i < inOTP.length; i++) {
             if((this.otp_[i].getBasis() == inOTP[i].getBasis())) {
                 this.botp_.push(inOTP[i].getBit());

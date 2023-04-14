@@ -34,6 +34,7 @@ function rerunSim() {
     if(!eveIntercept) { eveIntercept = false; }
 
     sim = new BB84();
+    am.reset();
 
     sim.runProtocol(keySize, eveIntercept);
     sim.simResults();
@@ -712,7 +713,7 @@ function drawSim() {
         errorRate = drawErrorRate();
     }
 
-    //drawOTP(inc);
+    drawOTP(inc);
 
     drawEveDetect(errorRate);
     text('Error Rate: ' + errorRate + '%', window.innerWidth * (1/8), window.innerHeight * (1/8));
@@ -775,7 +776,7 @@ function drawOTP(inc) {
     text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 208);
 
     for(let i = 0; i < inc; i++) {
-        text(sim.getAlice().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 208 + 16 * shiftDown);
+        text(sim.getAlice().getPOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 208 + 16 * shiftDown);
         if(i % 32 == 31) shiftDown++;
     }
     if(eveIntercept) {
@@ -812,6 +813,9 @@ function drawABE(eveIntercept) {
 // Function to dynamically draw the basis for Eve and Bob to measure the photon.
 function drawPhotonBasisText(ap, ep, ab, ae) {
     let photonDesc;
+
+    //console.log(ap);
+    //console.log();
 
     if(ab[inc] == "+") { bobBasis = plusMeasure; }
     else if(ab[inc] == "x") { bobBasis = xMeasure; }
