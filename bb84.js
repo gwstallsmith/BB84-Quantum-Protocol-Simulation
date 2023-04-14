@@ -181,7 +181,6 @@ class Alice {
         }
 
         this.otp_ = tempOTP;
-        
         return this.botp_;
     }
 

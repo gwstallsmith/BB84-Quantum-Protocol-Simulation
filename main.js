@@ -711,7 +711,7 @@ function drawSim() {
 
     drawOTP(inc);
 
-    drawEveDetect(drawErrorRate(inc));
+    drawEveDetect(drawErrorRate());
 
     drawABE(eveIntercept);
     drawCredits();
@@ -838,16 +838,22 @@ function drawPhotonBasisText(ap, ep, ab, ae) {
 }
 
 // Function to dynamically draw error rate during animation.
-function drawErrorRate(inc) {
+function drawErrorRate() {
     let errorAmount = 0;
+    let subsetSize = 0;
     let errorRate = 0;
-    for(let i = 0; i < inc; i++) {
+
+    while(subsetSize < (sim.getAlice().getOTP().length / 3)) {
+        subsetSize =  Math.ceil(Math.random() * sim.getAlice().getOTP().length);
+    }
+
+    for(let i = 0; i < subsetSize; i++) {
         if(sim.getAlice().getOTP()[i].getBit() != sim.getAlice().getBOTP()[i]) {
             errorAmount++;
         }
     }
 
-    errorRate = Math.ceil(errorAmount / inc * 100);
+    errorRate = Math.ceil(errorAmount / subsetSize * 100);
 
     text('Error Rate: ' + errorRate + '%', window.innerWidth * (1/8), window.innerHeight * (1/8));
 
