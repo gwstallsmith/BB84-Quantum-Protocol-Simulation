@@ -797,7 +797,7 @@ function drawABE(eveIntercept) {
 
     if(eveIntercept) {
         image(eve, window.innerWidth * (1/2) - 32, window.innerHeight * (1/4) - 112, 64, 128);
-        text('Eve', window.innerWidth * (1/2) - 12, window.innerHeight * (1/4) - 120);
+        text('Eve', window.innerWidth * (1/2) + 48, window.innerHeight * (1/4) - 32);
     }
 
 
