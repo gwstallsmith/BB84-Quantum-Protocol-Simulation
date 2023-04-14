@@ -712,7 +712,7 @@ function drawSim() {
         errorRate = drawErrorRate();
     }
 
-    drawOTP(inc);
+    //drawOTP(inc);
 
     drawEveDetect(errorRate);
     text('Error Rate: ' + errorRate + '%', window.innerWidth * (1/8), window.innerHeight * (1/8));

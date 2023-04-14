@@ -327,6 +327,22 @@ class Eve {
         }
     }
 
+    randPhoton(inBasis) {
+        if(inBasis == '+') {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
+                return new Photon("0", "x", "45");
+            } else {
+                return new Photon("1", "x", "135");
+            }
+        } else if (inBasis == 'x') {
+            if(Math.floor(Math.random() * 2) % 2 == 0) {
+                return new Photon("1", "+", "0");
+            } else {
+                return new Photon("0", "+", "90");
+            }
+        }
+    }
+
     // This method allows Eve to guess a photon value and check to see if received photon is equivalent.
     // Eve will intercept Alice's photons with the same chance as Bob to interpret them correctly (50%) and send to Bob.
     // Due to the no-cloning theorem, if Eve guesses a basis incorrectly there is no way for Eve to pass the same photon along.
@@ -359,9 +375,8 @@ class Eve {
                     this.am_.pushEvePhoton(new Photon("1", "x", "135"));
                 }
             } else {
-                this.otp_.push(new Photon(this.bit_, this.basis_, this.polar_));
-                this.am_.pushEvePhoton(new Photon(this.bit_, this.basis_, this.polar_));
-
+                this.otp_.push(this.randPhoton(inOTP[i].getBasis()));
+                this.am_.pushEvePhoton(this.randPhoton(inOTP[i].getBasis()));
             }
         }
         return this.otp_
