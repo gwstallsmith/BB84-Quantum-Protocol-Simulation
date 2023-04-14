@@ -68,6 +68,8 @@ let kent;
 
 let inc = 0;
 
+let errorRate = 0;
+
 // Buttons
 let homeButton;
 let startStopButton;
@@ -707,11 +709,15 @@ function drawSim() {
     if((x < window.innerWidth * (1/3)) || (x > window.innerWidth * (2/3))) {
         x =  window.innerWidth * (1/3);
         inc++;
+        errorRate = drawErrorRate();
     }
 
     drawOTP(inc);
 
-    drawEveDetect(drawErrorRate());
+    drawEveDetect(errorRate);
+    text('Error Rate: ' + errorRate + '%', window.innerWidth * (1/8), window.innerHeight * (1/8));
+
+
 
     drawABE(eveIntercept);
     drawCredits();
@@ -769,7 +775,7 @@ function drawOTP(inc) {
     text('Alice OTP:', window.innerWidth * (1/3) - 96, window.innerHeight * (1/3) + 208);
 
     for(let i = 0; i < inc; i++) {
-        text(sim.getAlice().getPOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 208 + 16 * shiftDown);
+        text(sim.getAlice().getOTP()[i].getBit(), window.innerWidth * (1/3) - 24 + 16 * (i % 32 + 1), window.innerHeight * (1/3) + 208 + 16 * shiftDown);
         if(i % 32 == 31) shiftDown++;
     }
     if(eveIntercept) {
@@ -854,8 +860,6 @@ function drawErrorRate() {
     }
 
     errorRate = Math.ceil(errorAmount / subsetSize * 100);
-
-    text('Error Rate: ' + errorRate + '%', window.innerWidth * (1/8), window.innerHeight * (1/8));
 
     return errorRate;
 }
