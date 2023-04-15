@@ -4,9 +4,9 @@
 // Only a single instance of this class will exist. Alice, Bob and Eve will share this instance.
 class AnimManager {
     constructor() {
-        if(AnimManager.instance instanceof AnimManager) {
-            return AnimManager.instance;
-        }
+        //if(AnimManager.instance instanceof AnimManager) {
+        //    return AnimManager.instance;
+        //}
 
         this.AnimManagerObject = {};
         
@@ -15,19 +15,11 @@ class AnimManager {
         this.bobMeasure_ = [];
         this.eveMeasure_ = [];
 
-        Object.freeze(this.AnimManagerObject);
-        Object.freeze(this);
-        AnimManager.instance = this;
+        //Object.freeze(this.AnimManagerObject);
+        //Object.freeze(this);
+        //AnimManager.instance = this;
     }
 
-    reset() {
-        while(!(this.alicePhotons_.length == 0 && this.evePhotons_ == 0 && this.bobMeasure_ == 0 && this.eveMeasure_ == 0)) {
-            this.alicePhotons_.pop();
-            this.evePhotons_.pop();
-            this.bobMeasure_.pop();
-            this.eveMeasure_.pop();
-            }
-    }
 
     // Getters, nothing too special
     getAlicePhotons() { return this.alicePhotons_; }
@@ -140,7 +132,7 @@ class Photon {
 // It is Alice's job to send a one time pad across the medium.
 // After the exchange, Alice will compare one time pads with Bob.
 class Alice {
-    constructor() {
+    constructor(am) {
         this.bit_ = "1";
         this.basis_ = "+";
         this.polar_ = "0";
@@ -148,7 +140,7 @@ class Alice {
         this.botp_ = [];
         this.potp_ = [];
 
-        this.am_ = new AnimManager();
+        this.am_ = am;
     }
 
     // This generates random values to be stored as photons
@@ -237,13 +229,13 @@ class Alice {
 // In BB84 Bob is the receiver.
 // It is Bob's job to measure the photons that are sent to him.
 class Bob {
-    constructor() {
+    constructor(am) {
         this.bit_ = "1";
         this.basis_ = "+";
         this.polar_ = "0";
         this.otp_ = [];
 
-        this.am_ = new AnimManager();
+        this.am_ = am;
     }
 
     // This generates random values to be stored as photons
@@ -311,13 +303,13 @@ class Bob {
 // In BB84 Eve is the intercepter (eavesdropper -> Eve).
 // Eve will intercept a photon and tranmit a new photon to Bob.
 class Eve {
-    constructor() {
+    constructor(am) {
         this.bit_ = "1";
         this.basis_ = "+";
         this.polar_ = "0";
         this.otp_ = [];
 
-        this.am_ = new AnimManager();
+        this.am_ = am;
     }
 
     // This generates random values to be stored as photons
@@ -411,9 +403,10 @@ const ACCEPTABLE_ERROR_RATE = 0.2;
 
 class BB84 {
     constructor() {
-        this.a_ = new Alice();
-        this.b_ = new Bob();
-        this.e_ = new Eve();
+        this.am_ = new AnimManager;
+        this.a_ = new Alice(this.am_);
+        this.b_ = new Bob(this.am_);
+        this.e_ = new Eve(this.am_);
 
         this.agreedOTP_ = [];
 
@@ -422,11 +415,22 @@ class BB84 {
         this.eveIntercept_ = false;
         this.eveDetect_ = false;
 
+
+        this.ap_ = [];
+        this.ep_ = [];
+        this.ab_ = [];
+        this.ae_ = []
     }
 
     getAlice() { return this.a_; }
     getBob() { return this.b_; }
     getEve() { return this.e_; }
+
+    getAP() { return this.ap_; }
+    getEP() { return this.ep_; }
+    getAB() { return this.ab_; }
+    getAE() { return this.ae_; }
+
 
     // To run the protocol we need to know the size of the key and if Eve will be intercepting photons.
     runProtocol(keySize, eveIntercept) {
@@ -457,6 +461,15 @@ class BB84 {
     getEveIntercept() { return this.eveIntercept_; }
     getEveDetect() { return this.eveDetect_; }
     getAgreedOTP() { return this.agreedOTP_; }
+
+    runAnimManager() {
+        this.ap_ = this.am_.getAlicePhotons();
+        this.ep_ = this.am_.getEvePhotons();
+    
+        this.ab_ = this.am_.getBobMeasure();
+        this.ae_ = this.am_.getEveMeasure();
+    
+    }
 
     // Utility print function.
     simResults() {

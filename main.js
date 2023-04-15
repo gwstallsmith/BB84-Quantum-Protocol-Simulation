@@ -29,28 +29,29 @@ function main() {
 }
 
 function rerunSim() {
-    am.reset();
+    //am.reset();
 
     if(!keySize) { keySize = 128; }
     if(!xSpeed) { xSpeed = 1; }
     if(!eveIntercept) { eveIntercept = false; }
 
     sim = new BB84();
-    am.reset();
 
     sim.runProtocol(keySize, eveIntercept);
     sim.simResults();
+    
+    sim.runAnimManager();
 
-    ap = am.getAlicePhotons();
-    ep = am.getEvePhotons();
+    ap = sim.getAP();
+    ep = sim.getEP();
 
-    ab = am.getBobMeasure();
-    ae = am.getEveMeasure();
+    ab = sim.getAB()
+    ae = sim.getAE();
 
 
 
     console.log(ap);
-    console.log(sim.getAlice().getPOTP());
+    console.log(sim.getEve().getOTP());
 
 }
 
