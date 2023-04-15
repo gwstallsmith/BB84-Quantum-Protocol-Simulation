@@ -67,6 +67,14 @@ class AnimManager {
         else if (basis == "x") { this.eveMeasure_.push("x"); }
     }
 
+    reset() {
+        while(this.alicePhotons_.length != 0) { this.alicePhotons_.pop(); }
+        while(this.evePhotons_.length != 0) { this.evePhotons_.pop(); }
+        while(this.bobMeasure_.length != 0) { this.bobMeasure_.pop(); }
+        while(this.eveMeasure_.length != 0) { this.eveMeasure_.pop(); }
+
+    }
+
     // Utility print functions for debugging.
     printAlicePhotons() {
         console.log("Photons sent by Alice");

@@ -29,6 +29,8 @@ function main() {
 }
 
 function rerunSim() {
+    am.reset();
+
     if(!keySize) { keySize = 128; }
     if(!xSpeed) { xSpeed = 1; }
     if(!eveIntercept) { eveIntercept = false; }
@@ -43,6 +45,11 @@ function rerunSim() {
 
     ab = am.getBobMeasure();
     ae = am.getEveMeasure();
+
+
+
+    console.log(ap);
+    console.log(sim.getAlice().getPOTP());
 
 }
 
